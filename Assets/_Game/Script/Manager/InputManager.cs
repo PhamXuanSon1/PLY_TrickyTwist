@@ -6,6 +6,8 @@ public class InputManager : MonoBehaviour
     public Camera mainCamera;
     public LayerMask itemLayer;
     public LayerMask CurtainLayer;
+    [Tooltip("Layer dành cho các Object mà khi click vào sẽ bay ra Store")]
+    public LayerMask installLayer;
     public float maxDistance = 100f;
 
 
@@ -60,6 +62,17 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            // Kiểm tra xem người dùng có click vào Layer Install hay không
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, installLayer))
+            {
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.GotoStore();
+                }
+                return; // Kết thúc thao tác
+            }
+
             // Nếu đã gỡ đủ số lượng rèm (mặc định là 7), bất kỳ cú click nào cũng đi đến Store
             if (CurtainManager.Instance != null && CurtainManager.Instance.GetRemovedCurtainCount() >= curtainsToGotoStore)
             {

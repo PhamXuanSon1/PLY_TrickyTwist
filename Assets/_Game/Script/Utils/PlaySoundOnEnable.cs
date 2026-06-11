@@ -13,4 +13,5 @@ public class PlaySoundOnEnable : MonoBehaviour
             Ply_SoundManager.Ins.PlayFx(soundToPlay);
         }
     }
+
 }

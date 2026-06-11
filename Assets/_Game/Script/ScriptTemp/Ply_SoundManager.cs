@@ -19,7 +19,14 @@ public enum FxType
     watertap,
     Dog,
     Curtain,
-    Flame
+    Flame,
+    Women1,
+    Women2,
+    Women3,
+    Women4,
+    Women5,
+    Women6,
+    Women7
 }
 
 [System.Serializable]
@@ -44,6 +51,13 @@ public class FxAudio
     public SoundData Dog;
     public SoundData Curtain;
     public SoundData Flame;
+    public SoundData Women1;
+    public SoundData Women2;
+    public SoundData Women3;    
+    public SoundData Women4;
+    public SoundData Women5;
+    public SoundData Women6;
+    public SoundData Women7;
 }
 
 public class Ply_SoundManager : Ply_Singleton<Ply_SoundManager>
@@ -133,6 +147,13 @@ public class Ply_SoundManager : Ply_Singleton<Ply_SoundManager>
             case FxType.Dog: return fxAudio.Dog;
             case FxType.Curtain: return fxAudio.Curtain;
             case FxType.Flame: return fxAudio.Flame;
+            case FxType.Women1: return fxAudio.Women1;
+            case FxType.Women2: return fxAudio.Women2;
+            case FxType.Women3: return fxAudio.Women3;
+            case FxType.Women4: return fxAudio.Women4;
+            case FxType.Women5: return fxAudio.Women5;
+            case FxType.Women6: return fxAudio.Women6;
+            case FxType.Women7: return fxAudio.Women7;
             default: return null;
         }
     }

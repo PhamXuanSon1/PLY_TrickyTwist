@@ -1,0 +1,233 @@
+{
+    "BuildID": "d97278d1-3837-467c-9ad9-9c21c3db6e6f",
+    "Command": "project:build",
+    "ProjectID": "1370e8ab0839ac744be970f792ec9b97",
+    "ProjectStateHash": "5d0cfcd8b013dc064194b391a2e13806be0bc492e2c1ef286a15cc257d75299e",
+    "StageCompletedAt": 3,
+    "EarliestFatalError": 0,
+    "StartTime": 1781170117545,
+    "EndTime": 1781170149653,
+    "PlaygroundUserID": 33919,
+    "OperatingSystem": "win32",
+    "UnityPackageID": null,
+    "TargetPlatform": "develop",
+    "UnityVersion": "6000.0.38f1",
+    "LunaVersion": "7.1.0",
+    "LogCount": 9,
+    "Logs": [
+        {
+            "LogID": "be872523-3ba2-4a89-9e73-5749216841f2",
+            "Order": 8,
+            "Timestamp": 1781170149833,
+            "Stage": 3,
+            "ErrorType": 3,
+            "ErrorCode": "LP3007",
+            "Description": "You are not using any custom events",
+            "Details": [
+                "You are not using any custom events. It is recommended to use custom events to have a better understanding of the playable."
+            ],
+            "DescriptionValues": [
+                ""
+            ],
+            "DetailsValues": [
+                ""
+            ],
+            "LogCount": 1,
+            "LinePosition": null,
+            "FilePath": "",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        },
+        {
+            "LogID": "91d9abb4-67c1-481d-ba57-f2b76a531112",
+            "Order": 8,
+            "Timestamp": 1781170149834,
+            "Stage": 3,
+            "ErrorType": 3,
+            "ErrorCode": "LP3011",
+            "Description": "You are not using any LunaPlaygroundFields attributes.",
+            "Details": [
+                "You are not using any LunaPlaygroundFields attributes, it allows you to configure your playable to different concepts to find the best variation, which can drastically improve playable performance on all ad networks."
+            ],
+            "DescriptionValues": null,
+            "DetailsValues": null,
+            "LogCount": 1,
+            "LinePosition": null,
+            "FilePath": "",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        },
+        {
+            "LogID": "217a536f-0db4-44e9-9043-c5f073e25d82",
+            "Order": 0,
+            "Timestamp": 1781170129935,
+            "Stage": 1,
+            "ErrorType": 2,
+            "ErrorCode": "LP1014",
+            "Description": "We recommend running Runtime Analysis to find and remove all unused code",
+            "Details": [
+                "Navigate to the Runtime Analysis → Code tab to enable code stripping. Before uploading the playable, please make sure to have played all scenario’s of the playable in a development build to make Runtime Analysis work properly."
+            ],
+            "DescriptionValues": [],
+            "DetailsValues": [],
+            "LogCount": 1,
+            "LinePosition": 0,
+            "FilePath": "",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        },
+        {
+            "LogID": "41058e80-b451-4610-8719-3ac13148efac",
+            "Order": 1,
+            "Timestamp": 1781170129936,
+            "Stage": 1,
+            "ErrorType": 2,
+            "ErrorCode": "LP1016",
+            "Description": "Extensive usage of ParticleSystem Component",
+            "Details": [
+                "There is extensive usage of the ParticleSystem component.\nExcessive usage of any component can be detrimental to performance on lower and in some cases higher end devices, consider reducing the amount the component is used.\nRecommended count: 10, current count 24."
+            ],
+            "DescriptionValues": [
+                "ParticleSystem"
+            ],
+            "DetailsValues": [
+                "ParticleSystem",
+                "10",
+                "24"
+            ],
+            "LogCount": 1,
+            "LinePosition": 0,
+            "FilePath": "",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        },
+        {
+            "LogID": "85c57504-6cfb-42a5-b3f0-8f3bdbeaffd4",
+            "Order": 2,
+            "Timestamp": 1781170129951,
+            "Stage": 1,
+            "ErrorType": 0,
+            "ErrorCode": "LP1027",
+            "Description": "This DOTween version is not supported",
+            "Details": [
+                "The incorrect DOTween version for this Unity version is in use, please update or downgrade to the recommended version {0} in the package manager. Go to Window → Package Manager."
+            ],
+            "DescriptionValues": [],
+            "DetailsValues": [
+                ""
+            ],
+            "LogCount": 1,
+            "LinePosition": 0,
+            "FilePath": "",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        },
+        {
+            "LogID": "d1d11f35-d2a1-43ad-beb1-b7d8bcc0bef3",
+            "Order": 3,
+            "Timestamp": 1781170129951,
+            "Stage": 1,
+            "ErrorType": 0,
+            "ErrorCode": "LP1032",
+            "Description": "Package(s) is not supported in Luna",
+            "Details": [
+                "Currently package(s) com.unity.timeline are not supported in Luna. We recommend you to remove it and workaround it's functionality."
+            ],
+            "DescriptionValues": [
+                "com.unity.timeline (1.8.7)"
+            ],
+            "DetailsValues": [
+                "com.unity.timeline"
+            ],
+            "LogCount": 1,
+            "LinePosition": 0,
+            "FilePath": "F:/UnityProject/PLY_TrickyTwist/Packages\\manifest.json",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        },
+        {
+            "LogID": "925f70fd-f51b-442b-93f8-fd2011790925",
+            "Order": 4,
+            "Timestamp": 1781170129952,
+            "Stage": 1,
+            "ErrorType": 3,
+            "ErrorCode": "LP1002",
+            "Description": "Repeat wrap mode used on a texture with non power-of-two dimensions, this might not be rendered correctly.",
+            "Details": [
+                "Repeat wrap mode used on 'LiberationSans SDF Atlas' texture at 'Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset' with non power-of-two dimensions, this might not be rendered correctly."
+            ],
+            "DescriptionValues": [],
+            "DetailsValues": [
+                "LiberationSans SDF Atlas",
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
+            ],
+            "LogCount": 1,
+            "LinePosition": 0,
+            "FilePath": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        },
+        {
+            "LogID": "89c1bff4-5e1d-4ba2-bc33-84c74257b895",
+            "Order": 5,
+            "Timestamp": 1781170129952,
+            "Stage": 1,
+            "ErrorType": 2,
+            "ErrorCode": "LP1010",
+            "Description": "Looks like a collider was scaled, this might affect performance.",
+            "Details": [
+                "InstallImg",
+                "Curtain",
+                "LighterCut",
+                "Icream",
+                "Scissors",
+                "Fan",
+                "Sausage 1",
+                "WaterTap",
+                "Switch"
+            ],
+            "DescriptionValues": [],
+            "DetailsValues": [],
+            "LogCount": 9,
+            "LinePosition": 0,
+            "FilePath": "",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        },
+        {
+            "LogID": "893af0eb-1cc6-4e23-ba22-06e0cba9faa8",
+            "Order": 6,
+            "Timestamp": 1781170129952,
+            "Stage": 1,
+            "ErrorType": 3,
+            "ErrorCode": "LP1008",
+            "Description": "There are missing components on Level73Control.",
+            "Details": [
+                "Level73Control",
+                "ScissorsFx2",
+                "CurtainHand",
+                "Dog2",
+                "FxWater",
+                "bone_9"
+            ],
+            "DescriptionValues": [
+                "Level73Control"
+            ],
+            "DetailsValues": [],
+            "LogCount": 6,
+            "LinePosition": 0,
+            "FilePath": "",
+            "ClassName": "",
+            "MemberName": "",
+            "Severity": 0
+        }
+    ]
+}

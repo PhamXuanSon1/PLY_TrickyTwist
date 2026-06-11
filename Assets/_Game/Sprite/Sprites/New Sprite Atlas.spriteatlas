@@ -45,6 +45,7 @@ SpriteAtlas:
     - 3a6c1402c342b9b45afaf2417dd4a4fa: 21300000
     - 9cfd7d3217f19ca468a50ec7bfefacee: 21300000
     - 3771da82aedbcbb4c883e8ca5e904aad: 21300000
+    - 21f3c8a2a70c6b94bacc8ff202f2e704: 21300000
     - 3ede53f2bfe5b614eb6bcffb6b0228f4: 21300000
     - ade2fff2085e84344941991fab021780: 21300000
     - 8b6491e3dd2315f4dba4d932a360fcd9: 21300000
@@ -69,7 +70,6 @@ SpriteAtlas:
     - 76b84e965c219e14e8625a5f19fbc269: 1083542733479480876
     - 76b84e965c219e14e8625a5f19fbc269: -654084581926392359
     - 76b84e965c219e14e8625a5f19fbc269: 5240302749759304508
-    - 1d9a96573b18a214980f5e7f63986b87: -1104227205
     - 616e34678fb3b4341befd039f1ffa927: 21300000
     - fef559877a665bc40836a9fffd9fc55b: 21300000
     - e1ce91c7965a61344b96da0674408d20: 21300000
@@ -86,6 +86,7 @@ SpriteAtlas:
     - 0e5fb88ae29ca20498cc411793122433: 21300000
     - 6a7fe95b145022d44b91330a80340a15: 21300000
     - ec40ac9ba13365440a5d7069377dcf5d: 21300000
+    - ebb259bb858c2054899fc55a608e98a7: 21300000
     - 0944751cba83748468a15b0bed2dc9d6: 21300000
     - 02e6689c4cbb9b841993e70a8274d873: 4583827541916855979
     - 02e6689c4cbb9b841993e70a8274d873: 7676062689472907678
@@ -115,6 +116,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3a6c1402c342b9b45afaf2417dd4a4fa, type: 3}
   - {fileID: 21300000, guid: 9cfd7d3217f19ca468a50ec7bfefacee, type: 3}
   - {fileID: 21300000, guid: 3771da82aedbcbb4c883e8ca5e904aad, type: 3}
+  - {fileID: 21300000, guid: 21f3c8a2a70c6b94bacc8ff202f2e704, type: 3}
   - {fileID: 21300000, guid: 3ede53f2bfe5b614eb6bcffb6b0228f4, type: 3}
   - {fileID: 21300000, guid: ade2fff2085e84344941991fab021780, type: 3}
   - {fileID: 21300000, guid: 8b6491e3dd2315f4dba4d932a360fcd9, type: 3}
@@ -139,7 +141,6 @@ SpriteAtlas:
   - {fileID: 1083542733479480876, guid: 76b84e965c219e14e8625a5f19fbc269, type: 3}
   - {fileID: -654084581926392359, guid: 76b84e965c219e14e8625a5f19fbc269, type: 3}
   - {fileID: 5240302749759304508, guid: 76b84e965c219e14e8625a5f19fbc269, type: 3}
-  - {fileID: -1104227205, guid: 1d9a96573b18a214980f5e7f63986b87, type: 3}
   - {fileID: 21300000, guid: 616e34678fb3b4341befd039f1ffa927, type: 3}
   - {fileID: 21300000, guid: fef559877a665bc40836a9fffd9fc55b, type: 3}
   - {fileID: 21300000, guid: e1ce91c7965a61344b96da0674408d20, type: 3}
@@ -156,6 +157,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0e5fb88ae29ca20498cc411793122433, type: 3}
   - {fileID: 21300000, guid: 6a7fe95b145022d44b91330a80340a15, type: 3}
   - {fileID: 21300000, guid: ec40ac9ba13365440a5d7069377dcf5d, type: 3}
+  - {fileID: 21300000, guid: ebb259bb858c2054899fc55a608e98a7, type: 3}
   - {fileID: 21300000, guid: 0944751cba83748468a15b0bed2dc9d6, type: 3}
   - {fileID: 4583827541916855979, guid: 02e6689c4cbb9b841993e70a8274d873, type: 3}
   - {fileID: 7676062689472907678, guid: 02e6689c4cbb9b841993e70a8274d873, type: 3}
@@ -184,6 +186,7 @@ SpriteAtlas:
   - Dog2
   - Hydrant
   - fan
+  - cccb32ae-6536-4bea-beeb-05c60ef087b6 (2)
   - LighterCut
   - Curtain_gray
   - ShadowGirlHurt
@@ -208,7 +211,6 @@ SpriteAtlas:
   - WindFan1
   - WindFan2
   - FanFront
-  - cccb32ae-6536-4bea-beeb-05c60ef087b6 (1)_0
   - Lighter1
   - Table
   - Scissors
@@ -225,6 +227,7 @@ SpriteAtlas:
   - BackGrond
   - Keo
   - Switch
+  - khung
   - CurtainTop
   - HandL
   - HandR

@@ -1,8 +1,8 @@
 {
     "version": "7.1.0",
     "projectId": "1370e8ab0839ac744be970f792ec9b97",
-    "applicationID": 0,
-    "creativeName": "",
+    "applicationID": 39823,
+    "creativeName": "PLY_TrickyTwist_LV74",
     "pgServer": "EU",
     "window": {
         "‐⁙": true
@@ -124,7 +124,8 @@
                 "Stubs/Vungle",
                 "Stubs/MoreMountains.NiceVibrations",
                 "Assets/_Game/Font/LilitaOne-Regular SDF.asset",
-                "Assets/TextMesh Pro/Sprites/EmojiOne.png"
+                "Assets/TextMesh Pro/Sprites/EmojiOne.png",
+                "Assets/AllIn1SpriteShader/Textures/rainbow.png"
             ],
             "includes": [
                 "Assets/Resources/DOTweenSettings.asset",
@@ -33595,6 +33596,66 @@
                         "script": "",
                         "ext": "",
                         "name": "Assets/_Game/Font/LilitaOne-Regular SDF 1.asset"
+                    },
+                    {
+                        "maxWidth": 2048,
+                        "maxHeight": 2048,
+                        "format": "png32",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sprite/women/women2.png"
+                    },
+                    {
+                        "maxWidth": 2048,
+                        "maxHeight": 2048,
+                        "format": "png32",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sprite/women/women3.png"
+                    },
+                    {
+                        "maxWidth": 2048,
+                        "maxHeight": 2048,
+                        "format": "png32",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sprite/Sprites/Rescuse/Level73/AnimObject/Man2.psb"
+                    },
+                    {
+                        "maxWidth": 2048,
+                        "maxHeight": 2048,
+                        "format": "png32",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sprite/Sprites/Rescuse/Level73/AnimObject/Man3.psb"
+                    },
+                    {
+                        "maxWidth": 2048,
+                        "maxHeight": 2048,
+                        "format": "png32",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sprite/Sprites/Rescuse/Level73/AnimObject/Man1.psb"
+                    },
+                    {
+                        "maxWidth": 2048,
+                        "maxHeight": 2048,
+                        "format": "png32",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sprite/women/women1.png"
                     }
                 ]
             },
