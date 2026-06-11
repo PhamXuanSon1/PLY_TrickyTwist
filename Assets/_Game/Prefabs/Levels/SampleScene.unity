@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 89590081}
   - component: {fileID: 89590080}
+  - component: {fileID: 89590082}
   m_Layer: 0
   m_Name: khung
   m_TagString: Untagged
@@ -206,6 +207,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2116011294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &89590082
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89590079}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.4159887, y: 4.711528, z: 0.2}
+  m_Center: {x: -0.0051230304, y: -0.03289817, z: 0}
 --- !u!1 &124231498
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +354,7 @@ MonoBehaviour:
     m_Bits: 256
   maxDistance: 100
   curtainsToGotoStore: 7
+  dragBounds: {fileID: 89590082}
 --- !u!1 &320681722
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,7 +614,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.5276923
+  orthographic size: 3.8200002
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

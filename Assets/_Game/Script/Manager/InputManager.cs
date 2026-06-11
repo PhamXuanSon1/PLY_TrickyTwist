@@ -138,12 +138,26 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    [Header("Drag Bounds Settings")]
+    [Tooltip("Khung giới hạn kéo thả (Kéo thả 1 BoxCollider vào đây, hoặc để trống nếu không cần giới hạn)")]
+    public BoxCollider dragBounds;
+
     private void MouseDrag()
     {
         if (draggedObject != null)
         {
             Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, dragDepth));
-            draggedObject.position = mouseWorldPos + offset;
+            Vector3 targetPos = mouseWorldPos + offset;
+
+            // Nếu có cài đặt khung giới hạn, ép vị trí Item phải nằm trong khung đó
+            if (dragBounds != null)
+            {
+                Bounds b = dragBounds.bounds;
+                targetPos.x = Mathf.Clamp(targetPos.x, b.min.x, b.max.x);
+                targetPos.y = Mathf.Clamp(targetPos.y, b.min.y, b.max.y);
+            }
+
+            draggedObject.position = targetPos;
         }
     }
 
