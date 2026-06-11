@@ -30,6 +30,15 @@ public class CurtainManager : MonoBehaviour
         return Color.white; // Màu mặc định nếu hết rèm
     }
 
+    [Header("Events")]
+    public UnityEngine.Events.UnityEvent onCurtainRemoved;
+
+    // Lấy số lượng rèm đã bị gỡ
+    public int GetRemovedCurtainCount()
+    {
+        return curtains.Count - 1 - currentTopIndex;
+    }
+
     // Gọi hàm này để xóa rèm trên cùng
     public void RemoveTopCurtain()
     {
@@ -37,6 +46,7 @@ public class CurtainManager : MonoBehaviour
         {
             curtains[currentTopIndex].gameObject.SetActive(false); // Ẩn rèm
             currentTopIndex--; // Giảm đi 1 để rèm bên dưới thành rèm trên cùng 
+            onCurtainRemoved?.Invoke();
         }
     }
 

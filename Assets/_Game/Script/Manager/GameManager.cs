@@ -1,16 +1,23 @@
 using UnityEngine;
+using Luna.Unity;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static GameManager Instance;
+
+    private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GotoStore()
     {
-        
+        LifeCycle.GameEnded();
+
+        Playable.InstallFullGame();
     }
+
 }

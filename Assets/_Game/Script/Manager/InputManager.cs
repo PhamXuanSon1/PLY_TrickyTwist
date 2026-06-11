@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -26,6 +27,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+
     private void Awake()
     {
         if (Instance == null)
@@ -39,9 +41,18 @@ public class InputManager : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
         if (Time.time < blockInputUntilTime) return;
+
+        if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
+        {
+            if (HandHintMmanager.Instance != null)
+            {
+                HandHintMmanager.Instance.HideAndResetTimer();
+            }
+        }
 
         if (Input.GetMouseButtonDown(0))
             MouseDown();

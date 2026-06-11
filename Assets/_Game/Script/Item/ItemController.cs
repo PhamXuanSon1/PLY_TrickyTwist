@@ -20,6 +20,7 @@ public class AnimObjectData
 public class ItemController : MonoBehaviour
 {
     public ItemType itemType = ItemType.DragAndDrop;
+    public Transform dropTarget;
 
     [Header("Events")]
     public UnityEvent onClick;
@@ -65,6 +66,11 @@ public class ItemController : MonoBehaviour
         if (InputManager.Instance != null)
         {
             InputManager.Instance.BlockInputFor(maxDuration);
+        }
+        
+        if (HandHintMmanager.Instance != null)
+        {
+            HandHintMmanager.Instance.OnItemCompleted(this, maxDuration);
         }
     }
 
