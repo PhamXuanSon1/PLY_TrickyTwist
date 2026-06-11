@@ -34050,7 +34050,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 19
   m_Sprite: {fileID: 21300000, guid: ade2fff2085e84344941991fab021780, type: 3}
-  m_Color: {r: 0, g: 0.7088356, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -45985,7 +45985,6 @@ GameObject:
   - component: {fileID: 300464655676217268}
   - component: {fileID: 7190345433323797523}
   - component: {fileID: 5326422214788536964}
-  - component: {fileID: 5551109513803312405}
   m_Layer: 0
   m_Name: CurtainFan2Img
   m_TagString: Untagged
@@ -53111,13 +53110,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1981815019}
         m_TargetAssemblyTypeName: CurtainManager, Assembly-CSharp
-        m_MethodName: RemoveTopCurtain
-        m_Mode: 1
+        m_MethodName: RemoveTopCurtainWithDelay
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 3.8
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -53830,18 +53829,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &5551109513803312405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3902228030674228654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &5569876167190631057
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -73818,13 +73805,13 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1981815019}
         m_TargetAssemblyTypeName: CurtainManager, Assembly-CSharp
-        m_MethodName: RemoveTopCurtain
-        m_Mode: 1
+        m_MethodName: RemoveTopCurtainWithDelay
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -74015,7 +74002,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2071373467}
+      - m_Target: {fileID: 2071373469}
         m_TargetAssemblyTypeName: AnimColorController, Assembly-CSharp
         m_MethodName: ApplyTopColor
         m_Mode: 1
@@ -99194,7 +99181,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 19
   m_Sprite: {fileID: 21300000, guid: ade2fff2085e84344941991fab021780, type: 3}
-  m_Color: {r: 0.2028302, g: 0.45159224, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -104580,13 +104567,13 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1981815019}
         m_TargetAssemblyTypeName: CurtainManager, Assembly-CSharp
-        m_MethodName: RemoveTopCurtain
-        m_Mode: 1
+        m_MethodName: RemoveTopCurtainWithDelay
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 0.2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -130856,13 +130843,13 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1981815019}
         m_TargetAssemblyTypeName: CurtainManager, Assembly-CSharp
-        m_MethodName: RemoveTopCurtain
-        m_Mode: 1
+        m_MethodName: RemoveTopCurtainWithDelay
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
