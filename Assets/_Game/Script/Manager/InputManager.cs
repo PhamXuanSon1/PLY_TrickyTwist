@@ -13,6 +13,18 @@ public class InputManager : MonoBehaviour
     private Transform draggedObject;
     private Vector3 offset;
     private float dragDepth;
+    private float blockInputUntilTime = 0f;
+    private Vector3 mouseDownPos;
+    private const float clickDragThreshold = 10f;
+
+    public void BlockInputFor(float duration)
+    {
+        float targetTime = Time.time + duration;
+        if (targetTime > blockInputUntilTime)
+        {
+            blockInputUntilTime = targetTime;
+        }
+    }
 
     private void Awake()
     {
@@ -29,6 +41,8 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        if (Time.time < blockInputUntilTime) return;
+
         if (Input.GetMouseButtonDown(0))
             MouseDown();
 
@@ -45,12 +59,22 @@ public class InputManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, itemLayer))
         {
+            mouseDownPos = Input.mousePosition;
+
             ItemController itemController = hit.transform.GetComponent<ItemController>();
-            if (itemController != null && itemController.itemType == ItemType.ClickOnly)
+            if (itemController != null)
             {
-                // Logic cho ClickOnly
-                itemController.PlayDropAnimations();
-                return;
+                if (itemController.itemType == ItemType.ClickOnly)
+                {
+                    itemController.onClick?.Invoke();
+                    // Logic cho ClickOnly
+                    itemController.PlayDropAnimations();
+                    return;
+                }
+                else
+                {
+                    itemController.onDragStart?.Invoke();
+                }
             }
 
             draggedObject = hit.transform;
@@ -81,20 +105,27 @@ public class InputManager : MonoBehaviour
     {
         if (draggedObject != null)
         {
+            bool isClick = Vector3.Distance(Input.mousePosition, mouseDownPos) <= clickDragThreshold;
+
             ItemGraphic itemGraphic = draggedObject.GetComponent<ItemGraphic>();
             if (itemGraphic != null)
             {
                 itemGraphic.ResetSortingLayer();
             }
 
-            // lấy Item graphic component
             ItemMovement itemMovement = draggedObject.GetComponent<ItemMovement>();
+            ItemController itemController = draggedObject.GetComponent<ItemController>();
+
+            if (isClick && itemController != null)
+            {
+                itemController.onClick?.Invoke();
+            }
+
             // kiểm tra va chạm với Curtain
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, CurtainLayer))
             {
                 // nếu va chạm với Curtain thì kích hoạt animation
-                ItemController itemController = draggedObject.GetComponent<ItemController>();
                 if (itemController != null)
                 {
                     itemController.PlayDropAnimations();
@@ -110,6 +141,10 @@ public class InputManager : MonoBehaviour
                 if (itemMovement != null)
                 {
                     itemMovement.ReturnToSpawn();
+                }
+                if (itemController != null)
+                {
+                    itemController.onReturn?.Invoke();
                 }
             }
 

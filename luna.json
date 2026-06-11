@@ -1783,10 +1783,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.PlayerPrefs.SessionStorageWrapper",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.Profiling.Profiler",
                 "excluded": true
             },
@@ -2163,10 +2159,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.PlayerPrefs.SessionStorageProvider",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.RuntimeInitializeOnLoadMethodAttribute",
                 "excluded": true
             },
@@ -2320,10 +2312,6 @@
             },
             {
                 "name": "UnityEngine.Rendering.RenderPipelineAsset",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.Rendering.Universal.UniversalAdditionalCameraData",
                 "excluded": true
             },
             {
@@ -2535,10 +2523,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.MeshRenderer",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.PolygonCollider2D",
                 "excluded": true
             },
@@ -2588,10 +2572,6 @@
             },
             {
                 "name": "UnityEngine.Playables.PlayableDirector",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.SkinnedMeshRenderer",
                 "excluded": true
             },
             {
@@ -4244,7 +4224,7 @@
             },
             {
                 "name": "UnityEngine.HideFlags",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.HideInInspector",
@@ -5196,7 +5176,7 @@
             },
             {
                 "name": "UnityEngine.Rendering.Universal.CameraRenderType",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.Rendering.Universal.SoftShadowQuality",
@@ -6848,7 +6828,7 @@
             },
             {
                 "name": "UnityEngine.UI.ILayoutController",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.UI.ContentSizeFitter.FitMode",
@@ -7000,15 +6980,15 @@
             },
             {
                 "name": "UnityEngine.EventSystems.ISubmitHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.IUpdateSelectedHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.IScrollHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.IDropHandler",
@@ -7016,23 +6996,23 @@
             },
             {
                 "name": "UnityEngine.EventSystems.IEndDragHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.IDragHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.IBeginDragHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.IInitializePotentialDragHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.IPointerClickHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.UI.ILayoutSelfController",
@@ -7040,7 +7020,7 @@
             },
             {
                 "name": "UnityEngine.UI.ILayoutGroup",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.EventTrigger.TriggerEvent",
@@ -9037,6 +9017,14 @@
             {
                 "name": "DG.Tweening.Plugins.Core.ITPlugin$4",
                 "excluded": false
+            },
+            {
+                "name": "pc.Debugger.Components.EditorCamera",
+                "excluded": true
+            },
+            {
+                "name": "pc.Debugger.Components.EditorGUI",
+                "excluded": true
             }
         ],
         "unusedMethods": [
@@ -13130,7 +13118,7 @@
                 "instanceMethods": [
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Count#get",
@@ -13150,7 +13138,7 @@
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor2",
@@ -15678,7 +15666,7 @@
                     },
                     {
                         "name": "LayerToName",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetMask",
@@ -16182,7 +16170,7 @@
                     },
                     {
                         "name": "sceneCount#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -16214,7 +16202,7 @@
                     },
                     {
                         "name": "GetSceneAt",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ProcessAsync",
@@ -16348,7 +16336,7 @@
                     },
                     {
                         "name": "GetLayerIDFromValue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetLayerValueFromName",
@@ -16356,7 +16344,7 @@
                     },
                     {
                         "name": "GetLayerNameFromValue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "NameToID",
@@ -17494,7 +17482,7 @@
                     },
                     {
                         "name": "localPosition#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "localPosition#set",
@@ -17510,7 +17498,7 @@
                     },
                     {
                         "name": "localScale#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "localScale#set",
@@ -17518,11 +17506,11 @@
                     },
                     {
                         "name": "lossyScale#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "localEulerAngles#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "localEulerAngles#set",
@@ -17530,7 +17518,7 @@
                     },
                     {
                         "name": "eulerAngles#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "eulerAngles#set",
@@ -18382,7 +18370,7 @@
                     },
                     {
                         "name": "GetUniversalAdditionalCameraData",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -18648,7 +18636,7 @@
                     },
                     {
                         "name": "lightProbeUsage#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "reflectionProbeUsage#get",
@@ -18656,7 +18644,7 @@
                     },
                     {
                         "name": "reflectionProbeUsage#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -19430,11 +19418,11 @@
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Get",
@@ -24834,7 +24822,7 @@
                 "instanceMethods": [
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "attachedRigidbody#get",
@@ -26509,6 +26497,172 @@
                     {
                         "name": "ReturnToSpawn",
                         "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.PlayerPrefs.SessionStorageWrapper",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetItem",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetItem",
+                        "excluded": true
+                    },
+                    {
+                        "name": "RemoveItem",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Clear",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.PlayerPrefs.SessionStorageProvider",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Remove",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Clear",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Save",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Has",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.MeshRenderer",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDidApplyAnimationProperties",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.SkinnedMeshRenderer",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "m_BlendShapeWeights#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "m_BlendShapeWeights#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sharedMesh#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sharedMesh#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "rootBone#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "rootBone#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "bones#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "bones#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "blendShape#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetBlendShapeWeight",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetBlendShapeWeight",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.Rendering.Universal.UniversalAdditionalCameraData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "defaultAdditionalCameraData#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "renderType#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "renderType#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "clearDepth#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "clearDepth#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "cameraStack#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
                     }
                 ]
             }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public enum ItemType
 {
@@ -20,11 +21,19 @@ public class ItemController : MonoBehaviour
 {
     public ItemType itemType = ItemType.DragAndDrop;
 
+    [Header("Events")]
+    public UnityEvent onClick;
+    public UnityEvent onDrop;
+    public UnityEvent onDragStart;
+    public UnityEvent onReturn;
+
     [Header("Animation Setup")]
     public List<AnimObjectData> animationObjects = new List<AnimObjectData>();
 
     public void PlayDropAnimations()
     {
+        onDrop?.Invoke();
+
         // Ẩn hiển thị của ItemGraphic đi để các object animation chạy
         ItemGraphic graphic = GetComponent<ItemGraphic>();
         if (graphic != null)
@@ -42,9 +51,20 @@ public class ItemController : MonoBehaviour
             col.enabled = false;
         }
 
+        float maxDuration = 0f;
         for (int i = 0; i < animationObjects.Count; i++)
         {
+            float duration = animationObjects[i].delayFromStart + animationObjects[i].durationToDeactivate;
+            if (duration > maxDuration)
+            {
+                maxDuration = duration;
+            }
             StartCoroutine(ActivateObjectWithDelay(animationObjects[i]));
+        }
+
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.BlockInputFor(maxDuration);
         }
     }
 
