@@ -42,6 +42,10 @@ public class InputManager : MonoBehaviour
     }
 
 
+    [Header("Store Settings")]
+    [Tooltip("Số lượng rèm bị gỡ để kích hoạt tính năng Click đi Store")]
+    public int curtainsToGotoStore = 7;
+
     private void Update()
     {
         if (Time.time < blockInputUntilTime) return;
@@ -55,7 +59,19 @@ public class InputManager : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0))
+        {
+            // Nếu đã gỡ đủ số lượng rèm (mặc định là 7), bất kỳ cú click nào cũng đi đến Store
+            if (CurtainManager.Instance != null && CurtainManager.Instance.GetRemovedCurtainCount() >= curtainsToGotoStore)
+            {
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.GotoStore();
+                }
+                return; // Kết thúc không cho tương tác kéo thả nữa
+            }
+
             MouseDown();
+        }
 
         if (Input.GetMouseButton(0))
             MouseDrag();
@@ -70,6 +86,12 @@ public class InputManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, itemLayer))
         {
+            // Phát âm thanh Click thông qua Ply_SoundManager (nếu có)
+            if (Ply_SoundManager.Ins != null)
+            {
+                Ply_SoundManager.Ins.PlayFx(FxType.Click);
+            }
+
             mouseDownPos = Input.mousePosition;
 
             ItemController itemController = hit.transform.GetComponent<ItemController>();

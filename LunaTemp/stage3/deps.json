@@ -9,22 +9,44 @@
   ],
   "groups": [
     [
-      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Item/ItemController.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Curtain/AnimColorController.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Manager/CurtainManager.cs",
       "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Manager/InputManager.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Item/ItemController.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Manager/HandHintMmanager.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Manager/ItemManager.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/ScriptTemp/Ply_SoundManager.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Utils/PlaySound.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Utils/PlaySoundOnEnable.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/ScriptTemp/Ply_Singleton.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/ScriptTemp/Ply_Pool.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/ScriptTemp/Ply_GameUnit.cs",
       "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Item/ItemGraphic.cs",
-      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Item/ItemMovement.cs"
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Manager/GameManager.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Item/ItemMovement.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Utils/ProgressBar.cs",
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Utils/ProgressBarUI.cs"
     ],
     [
-      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Manager/GameManager.cs"
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Curtain/CurtainController.cs"
     ],
     [
-      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Manager/ItemManager.cs"
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Curtain/CurtainGraphic.cs"
+    ],
+    [
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/ScriptTemp/CacheCollider.cs"
+    ],
+    [
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/ScriptTemp/Yielders.cs"
+    ],
+    [
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Script/Utils/AutoCameraFit.cs"
+    ],
+    [
+      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Tool/DeleteAllScript.cs"
     ],
     [
       "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Tool/LunaSpriteSkinConverterWindow.cs"
-    ],
-    [
-      "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Tool/RemoveAllScriptsAndCollidersTool.cs"
     ],
     [
       "F:/UnityProject/PLY_TrickyTwist/LunaTemp/stage3/processed-scripts/Assets/_Game/Tool/SetSortingLayerDefaultTool.cs"

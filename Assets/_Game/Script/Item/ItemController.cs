@@ -31,8 +31,17 @@ public class ItemController : MonoBehaviour
     [Header("Animation Setup")]
     public List<AnimObjectData> animationObjects = new List<AnimObjectData>();
 
+    [Header("Audio")]
+    [Tooltip("Chọn loại âm thanh FX sẽ phát khi chơi thành công (lấy từ Ply_SoundManager)")]
+    public FxType fxSoundType;
+
     public void PlayDropAnimations()
     {
+        if (Ply_SoundManager.Ins != null)
+        {
+            Ply_SoundManager.Ins.PlayFx(fxSoundType);
+        }
+
         onDrop?.Invoke();
 
         // Ẩn hiển thị của ItemGraphic đi để các object animation chạy
@@ -71,6 +80,11 @@ public class ItemController : MonoBehaviour
         if (HandHintMmanager.Instance != null)
         {
             HandHintMmanager.Instance.OnItemCompleted(this, maxDuration);
+        }
+
+        if (ItemManager.Instance != null)
+        {
+            ItemManager.Instance.DelayEvolutionCheckFor(maxDuration);
         }
     }
 
