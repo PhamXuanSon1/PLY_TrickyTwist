@@ -1,0 +1,22 @@
+public enum FxType
+{
+	None,
+	Click,
+	Fan,
+	Cream,
+	Switch,
+	Lighter,
+	Sausage,
+	scissor,
+	watertap,
+	Dog,
+	Curtain,
+	Flame,
+	Women1,
+	Women2,
+	Women3,
+	Women4,
+	Women5,
+	Women6,
+	Women7
+}

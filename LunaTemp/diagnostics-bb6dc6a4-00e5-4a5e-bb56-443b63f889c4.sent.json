@@ -1,0 +1,256 @@
+{
+  "BuildID": "bb6dc6a4-00e5-4a5e-bb56-443b63f889c4",
+  "Command": "project:upload",
+  "ProjectID": "1370e8ab0839ac744be970f792ec9b97",
+  "ProjectStateHash": "bb8b0fb5fba21bb586ff1daad5c7099c857f5dadecf174045792c2f4fcb895f1",
+  "StageCompletedAt": 3,
+  "EarliestFatalError": 0,
+  "StartTime": 1781234662817,
+  "EndTime": 1781234690507,
+  "PlaygroundUserID": 33919,
+  "OperatingSystem": "win32",
+  "UnityPackageID": null,
+  "TargetPlatform": "playground",
+  "UnityVersion": "6000.0.38f1",
+  "LunaVersion": "7.1.0",
+  "LogCount": 10,
+  "Logs": [
+    {
+      "LogID": "4b92b4ff-023e-4384-a1ee-e84481cc1c21",
+      "Order": 9,
+      "Timestamp": 1781234690708,
+      "Stage": 3,
+      "ErrorType": 3,
+      "ErrorCode": "LP3007",
+      "Description": "You are not using any custom events",
+      "Details": [
+        "You are not using any custom events. It is recommended to use custom events to have a better understanding of the playable."
+      ],
+      "DescriptionValues": [
+        ""
+      ],
+      "DetailsValues": [
+        ""
+      ],
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "4637a92f-b44c-4e2c-a910-af8a0c35a035",
+      "Order": 9,
+      "Timestamp": 1781234690710,
+      "Stage": 3,
+      "ErrorType": 3,
+      "ErrorCode": "LP3011",
+      "Description": "You are not using any LunaPlaygroundFields attributes.",
+      "Details": [
+        "You are not using any LunaPlaygroundFields attributes, it allows you to configure your playable to different concepts to find the best variation, which can drastically improve playable performance on all ad networks."
+      ],
+      "DescriptionValues": null,
+      "DetailsValues": null,
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "4b94cbb5-eeb9-4a90-96fe-c200ec107ac2",
+      "Order": 0,
+      "Timestamp": 1781234664907,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1030",
+      "Description": "TMP Font Asset uses unsupported 'Atlas Population Mode'",
+      "Details": [
+        "TMP Font Asset '{0}' uses Atlas Population Mode '{1}' which is not supported"
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [
+        "Jersey M54 SDF",
+        "Dynamic"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "90103beb-c719-4524-9783-3ffa8e96f0c0",
+      "Order": 1,
+      "Timestamp": 1781234667692,
+      "Stage": 1,
+      "ErrorType": 2,
+      "ErrorCode": "LP1014",
+      "Description": "We recommend running Runtime Analysis to find and remove all unused code",
+      "Details": [
+        "Navigate to the Runtime Analysis → Code tab to enable code stripping. Before uploading the playable, please make sure to have played all scenario’s of the playable in a development build to make Runtime Analysis work properly."
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "29358193-c94f-45e0-b7d0-c3928aaf3d09",
+      "Order": 2,
+      "Timestamp": 1781234667693,
+      "Stage": 1,
+      "ErrorType": 2,
+      "ErrorCode": "LP1016",
+      "Description": "Extensive usage of ParticleSystem Component",
+      "Details": [
+        "There is extensive usage of the ParticleSystem component.\nExcessive usage of any component can be detrimental to performance on lower and in some cases higher end devices, consider reducing the amount the component is used.\nRecommended count: 10, current count 24."
+      ],
+      "DescriptionValues": [
+        "ParticleSystem"
+      ],
+      "DetailsValues": [
+        "ParticleSystem",
+        "10",
+        "24"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "ce6fc27a-b760-430e-bf6b-fdbb4a1ce8a3",
+      "Order": 3,
+      "Timestamp": 1781234667707,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1027",
+      "Description": "This DOTween version is not supported",
+      "Details": [
+        "The incorrect DOTween version for this Unity version is in use, please update or downgrade to the recommended version {0} in the package manager. Go to Window → Package Manager."
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [
+        ""
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "780d3982-8771-4a95-be8f-012c3d36af13",
+      "Order": 4,
+      "Timestamp": 1781234667707,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1015",
+      "Description": "This TMP version is not fully supported",
+      "Details": [
+        "The incorrect Text Mesh Pro for this Unity version is in use, please update or downgrade to the recommended version {0} in the package manager. Go to Window → Package Manager"
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [
+        ""
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "cffd3b02-ee78-4267-97d1-335457a41fb0",
+      "Order": 5,
+      "Timestamp": 1781234667707,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1032",
+      "Description": "Package(s) is not supported in Luna",
+      "Details": [
+        "Currently package(s) com.unity.timeline are not supported in Luna. We recommend you to remove it and workaround it's functionality."
+      ],
+      "DescriptionValues": [
+        "com.unity.timeline (1.8.7)"
+      ],
+      "DetailsValues": [
+        "com.unity.timeline"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "F:/UnityProject/PLY_TrickyTwist/Packages\\manifest.json",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "77022e1e-8b34-4ba5-a8d0-ebca11cfe365",
+      "Order": 6,
+      "Timestamp": 1781234667708,
+      "Stage": 1,
+      "ErrorType": 2,
+      "ErrorCode": "LP1010",
+      "Description": "Looks like a collider was scaled, this might affect performance.",
+      "Details": [
+        "InstallImg",
+        "Curtain",
+        "LighterCut",
+        "Icream",
+        "Scissors",
+        "Fan",
+        "Sausage 1",
+        "WaterTap",
+        "Switch",
+        "Background"
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [],
+      "LogCount": 10,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "5b2abf5d-302c-4130-bfb9-91b9b2c145d5",
+      "Order": 7,
+      "Timestamp": 1781234667708,
+      "Stage": 1,
+      "ErrorType": 3,
+      "ErrorCode": "LP1008",
+      "Description": "There are missing components on Level73Control.",
+      "Details": [
+        "Level73Control",
+        "ScissorsFx2",
+        "CurtainHand",
+        "Dog2",
+        "FxWater",
+        "bone_9"
+      ],
+      "DescriptionValues": [
+        "Level73Control"
+      ],
+      "DetailsValues": [],
+      "LogCount": 6,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    }
+  ]
+}
