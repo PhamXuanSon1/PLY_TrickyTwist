@@ -65,6 +65,9 @@ public class AutoCameraFit : MonoBehaviour
         foreach (var r in renderers)
             bounds.Encapsulate(r.bounds);
 
+        // Chống lỗi chia cho 0 sinh ra lỗi NaN (Not a Number) làm hỏng Camera
+        if (bounds.size.y <= 0.0001f || bounds.size.x <= 0.0001f || Screen.height == 0) return;
+
         float screenRatio = (float)Screen.width / Screen.height;
         float targetRatio = bounds.size.x / bounds.size.y;
 

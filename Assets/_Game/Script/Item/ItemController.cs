@@ -32,6 +32,8 @@ public class ItemController : MonoBehaviour
     public UnityEvent onDrop;
     public UnityEvent onDragStart;
     public UnityEvent onReturn;
+    [Tooltip("Sự kiện kích hoạt sau khi TẤT CẢ các Animation của Item đã chạy xong")]
+    public UnityEvent onAnimFinished;
 
     [Header("Animation Setup")]
     public List<AnimObjectData> animationObjects = new List<AnimObjectData>();
@@ -100,13 +102,24 @@ public class ItemController : MonoBehaviour
 
         if (ItemManager.Instance != null)
         {
-            ItemManager.Instance.AddDroppedItem();
+            ItemManager.Instance.AddDroppedItem(this);
         }
 
         if (fxSoundsAfterAnim != null && fxSoundsAfterAnim.Count > 0)
         {
             StartCoroutine(PlaySoundsAfterDelay(fxSoundsAfterAnim, maxDuration));
         }
+
+        StartCoroutine(InvokeAnimFinished(maxDuration));
+    }
+
+    private IEnumerator InvokeAnimFinished(float delay)
+    {
+        if (delay > 0f)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+        onAnimFinished?.Invoke();
     }
 
     private IEnumerator ActivateObjectWithDelay(AnimObjectData data)

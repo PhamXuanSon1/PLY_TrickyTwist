@@ -27,14 +27,14 @@ public class GameManager : MonoBehaviour
 
     [Header("Game State")]
     public UnityEngine.Events.UnityEvent onLoseGame;
+    [HideInInspector] public bool isGameEnded = false;
 
     // Hàm này dùng để gọi từ Unity Event (ví dụ OnReturn của ItemController)
     public void LoseGame()
     {
+        isGameEnded = true;
+        
         // Kích hoạt các hàm (Bật UI Thua, Phát âm thanh...) mà bạn kéo thả trên Inspector
         onLoseGame?.Invoke();
-        
-        // Mặc định kết thúc Game và bay ra Store
-        GotoStore();
     }
 }

@@ -14,7 +14,8 @@ public class ProgressBar : MonoBehaviour
     [Tooltip("Kéo TextMeshPro (Dạng 3D Text) vào đây")]
     public TextMeshPro progressTextWorld;
 
-    private int totalCurtains;
+    private int totalItems = 0;
+
     private Vector3 originalSpriteScale;
 
     private void Start()
@@ -25,29 +26,29 @@ public class ProgressBar : MonoBehaviour
             originalSpriteScale = fillSpriteRenderer.transform.localScale;
         }
 
-        if (CurtainManager.Instance != null)
+        if (ItemManager.Instance != null)
         {
-            totalCurtains = CurtainManager.Instance.curtains.Count;
-            CurtainManager.Instance.onCurtainRemoved.AddListener(UpdateUI);
+            totalItems = ItemManager.Instance.items.Count;
+            ItemManager.Instance.onItemDropped.AddListener(UpdateUI);
             UpdateUI();
         }
     }
 
     private void OnDestroy()
     {
-        if (CurtainManager.Instance != null)
+        if (ItemManager.Instance != null)
         {
-            CurtainManager.Instance.onCurtainRemoved.RemoveListener(UpdateUI);
+            ItemManager.Instance.onItemDropped.RemoveListener(UpdateUI);
         }
     }
 
     public void UpdateUI()
     {
-        if (CurtainManager.Instance != null && totalCurtains > 0)
+        if (ItemManager.Instance != null && totalItems > 0)
         {
-            int removedCount = CurtainManager.Instance.GetRemovedCurtainCount();
-            float fillAmount = (float)removedCount / totalCurtains;
-            string textToShow = $"{removedCount} / {totalCurtains}";
+            int removedCount = ItemManager.Instance.totalItemsDropped;
+            float fillAmount = (float)removedCount / totalItems;
+            string textToShow = $"{removedCount} / {totalItems}";
             
             // --- NẾU DÙNG CANVAS ---
             if (fillImage != null)

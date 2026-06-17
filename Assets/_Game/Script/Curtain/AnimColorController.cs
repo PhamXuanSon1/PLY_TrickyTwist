@@ -10,18 +10,7 @@ public class AnimColorController : MonoBehaviour
     // Hàm này sẽ được gọi từ UnityEvent (On Drop)
     public void ApplyTopColor()
     {
-        if (CurtainManager.Instance != null)
-        {
-            Color targetColor = CurtainManager.Instance.GetTopCurtainColor();
-            
-            // Nhuộm màu cho toàn bộ list
-            foreach (var sr in partsToColor)
-            {
-                if (sr != null)
-                {
-                    sr.color = targetColor;
-                }
-            }
-        }
+        // TÍNH NĂNG NÀY ĐÃ ĐƯỢC VÔ HIỆU HÓA
+        // (Do bạn đã yêu cầu xóa CurtainManager nên không còn màu rèm để lấy nữa)
     }
 }

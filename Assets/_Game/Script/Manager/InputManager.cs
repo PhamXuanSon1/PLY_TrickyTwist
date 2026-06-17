@@ -63,6 +63,13 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            // Kiểm tra xem game đã kết thúc (do gọi LoseGame) chưa, nếu rồi thì click đâu cũng ra store
+            if (GameManager.Instance != null && GameManager.Instance.isGameEnded)
+            {
+                GameManager.Instance.GotoStore();
+                return;
+            }
+
             // Kiểm tra xem người dùng có click vào Layer Install hay không
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, installLayer))
@@ -139,6 +146,10 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    [Header("Drag Settings")]
+    [Tooltip("Số lượng layer cộng thêm khi nhấc Item lên (để nó đè lên UI/đồ vật khác)")]
+    public int dragSortingOffset = 100;
+
     [Header("Drag Bounds Settings")]
     [Tooltip("Bật/Tắt tính năng giới hạn di chuyển")]
     public bool useDragBounds = true;
@@ -171,11 +182,6 @@ public class InputManager : MonoBehaviour
             bool isClick = Vector3.Distance(Input.mousePosition, mouseDownPos) <= clickDragThreshold;
 
             ItemGraphic itemGraphic = draggedObject.GetComponent<ItemGraphic>();
-            if (itemGraphic != null)
-            {
-                itemGraphic.ResetSortingLayer();
-            }
-
             ItemMovement itemMovement = draggedObject.GetComponent<ItemMovement>();
             ItemController itemController = draggedObject.GetComponent<ItemController>();
 
@@ -212,6 +218,7 @@ public class InputManager : MonoBehaviour
 
             if (dropSuccess)
             {
+                if (itemGraphic != null) itemGraphic.ResetSortingLayer();
                 itemController.PlayDropAnimations();
             }
             else

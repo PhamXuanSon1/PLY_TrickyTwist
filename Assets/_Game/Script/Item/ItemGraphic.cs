@@ -21,20 +21,22 @@ public class ItemGraphic : MonoBehaviour
     // tăng tất cả order in layer của tất cả SpriteRenderer lên 100
     public void SetSortingLayerToTop()
     {
+        int offset = InputManager.Instance != null ? InputManager.Instance.dragSortingOffset : sortingOrderOffset;
         for(int i = 0; i < spriteRenderers.Count; i++)
         {
             SpriteRenderer sr = spriteRenderers[i];
-            sr.sortingOrder += sortingOrderOffset;
+            sr.sortingOrder += offset;
         }
     }
 
     // trả về order in layer ban đầu
     public void ResetSortingLayer()
     {
+        int offset = InputManager.Instance != null ? InputManager.Instance.dragSortingOffset : sortingOrderOffset;
         for (int i = 0; i < spriteRenderers.Count; i++)
         {
             SpriteRenderer sr = spriteRenderers[i];
-            sr.sortingOrder -= sortingOrderOffset;
+            sr.sortingOrder -= offset;
         }
     }
 }

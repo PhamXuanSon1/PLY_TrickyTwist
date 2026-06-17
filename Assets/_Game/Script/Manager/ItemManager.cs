@@ -11,6 +11,9 @@ public class ItemManager : MonoBehaviour
     [Tooltip("Tổng số Item đã được thả trúng đích thành công")]
     public int totalItemsDropped = 0;
 
+    [Header("Events")]
+    public UnityEngine.Events.UnityEvent onItemDropped;
+
     private void Awake()
     {
         if (Instance == null)
@@ -19,8 +22,12 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public void AddDroppedItem()
+    public void AddDroppedItem(ItemController item)
     {
-        totalItemsDropped++;
+        if (items.Contains(item))
+        {
+            totalItemsDropped++;
+            onItemDropped?.Invoke();
+        }
     }
 }

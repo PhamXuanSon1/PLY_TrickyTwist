@@ -12,55 +12,55 @@ public class ProgressBarUI : MonoBehaviour
     [Tooltip("Kéo TextMeshPro hiển thị số (ví dụ 3/8) vào đây")]
     public TextMeshProUGUI progressText;
 
-    private int totalCurtains;
+    private int totalItems = 0;
 
     private void Start()
     {
-        if (CurtainManager.Instance != null)
+        if (ItemManager.Instance != null)
         {
-            totalCurtains = CurtainManager.Instance.curtains.Count;
-            
-            // Đăng ký nhận sự kiện mỗi khi có rèm bị xóa
-            CurtainManager.Instance.onCurtainRemoved.AddListener(UpdateUI);
+            // Tự động lấy số lượng Item trong ItemManager làm tổng số
+            totalItems = ItemManager.Instance.items.Count;
+
+            // Đăng ký nhận sự kiện mỗi khi có Item được chơi xong
+            ItemManager.Instance.onItemDropped.AddListener(UpdateUI);
             
             // Set giá trị mặc định lúc mới vào game không cần hiệu ứng
-            int initialCount = CurtainManager.Instance.GetRemovedCurtainCount();
-            // Cài đặt tự động kiểu Fill Horizontal cho Image bằng code
-            if (fillImage != null) 
+            int initialCount = ItemManager.Instance.totalItemsDropped;
+            if (fillImage != null && totalItems > 0) 
             {
-                fillImage.fillAmount = (float)initialCount / totalCurtains;
+                fillImage.fillAmount = (float)initialCount / totalItems;
             }
-            if (progressText != null) progressText.text = $"{initialCount}/{totalCurtains}";
+            if (progressText != null) progressText.text = $"{initialCount}/{totalItems}";
         }
     }
 
     private void OnDestroy()
     {
         // Gỡ đăng ký sự kiện khi object bị hủy để tránh lỗi rò rỉ bộ nhớ
-        if (CurtainManager.Instance != null)
+        if (ItemManager.Instance != null)
         {
-            CurtainManager.Instance.onCurtainRemoved.RemoveListener(UpdateUI);
+            ItemManager.Instance.onItemDropped.RemoveListener(UpdateUI);
         }
     }
 
-    // Hàm này sẽ tự động được gọi khi CurtainManager.cs báo tín hiệu gỡ rèm
+    // Hàm này sẽ tự động được gọi khi ItemManager.cs báo tín hiệu có Item chơi xong
     public void UpdateUI()
     {
-        if (CurtainManager.Instance != null && totalCurtains > 0)
+        if (ItemManager.Instance != null && totalItems > 0)
         {
-            int removedCount = CurtainManager.Instance.GetRemovedCurtainCount();
+            int currentCount = ItemManager.Instance.totalItemsDropped;
             
             if (fillImage != null)
             {
-                float targetFill = (float)removedCount / totalCurtains;
+                float targetFill = (float)currentCount / totalItems;
                 
-                // Dùng DOTween để thanh vàng trượt lên mượt mà trong 0.5 giây
+                // Dùng DOTween để thanh trượt lên mượt mà trong 0.5 giây
                 fillImage.DOFillAmount(targetFill, 0.5f).SetEase(Ease.OutCubic);
             }
 
             if (progressText != null)
             {
-                progressText.text = $"{removedCount}/{totalCurtains}"; // Đổi thành format dính liền theo đúng ý bạn
+                progressText.text = $"{currentCount}/{totalItems}"; 
             }
         }
     }

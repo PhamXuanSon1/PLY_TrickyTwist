@@ -23,6 +23,9 @@ public enum FxType
     Correct,
     FridgeOpen,
     water,
+    mouse,
+    wrong,
+    haa
 
 }
 
@@ -51,6 +54,9 @@ public class FxAudio
     public SoundData Correct;
     public SoundData FridgeOpen;
     public SoundData water;
+    public SoundData mouse;
+    public SoundData wrong;
+    public SoundData haa;
 }
 
 public class Ply_SoundManager : Ply_Singleton<Ply_SoundManager>
@@ -143,6 +149,9 @@ public class Ply_SoundManager : Ply_Singleton<Ply_SoundManager>
             case FxType.Correct: return fxAudio.Correct;
             case FxType.FridgeOpen: return fxAudio.FridgeOpen;
             case FxType.water: return fxAudio.water;
+            case FxType.mouse: return fxAudio.mouse;
+            case FxType.wrong: return fxAudio.wrong;
+            case FxType.haa: return fxAudio.haa;
             default: return null;
         }
     }
