@@ -45,8 +45,9 @@ public class InputManager : MonoBehaviour
 
 
     [Header("Store Settings")]
-    [Tooltip("Số lượng rèm bị gỡ để kích hoạt tính năng Click đi Store")]
-    public int curtainsToGotoStore = 7;
+    [Tooltip("Số lượng Item thả trúng đích để kích hoạt tính năng Click bất kỳ đâu cũng đi Store")]
+    [UnityEngine.Serialization.FormerlySerializedAs("curtainsToGotoStore")]
+    public int itemsToGotoStore = 7;
 
     private void Update()
     {
@@ -73,8 +74,8 @@ public class InputManager : MonoBehaviour
                 return; // Kết thúc thao tác
             }
 
-            // Nếu đã gỡ đủ số lượng rèm (mặc định là 7), bất kỳ cú click nào cũng đi đến Store
-            if (CurtainManager.Instance != null && CurtainManager.Instance.GetRemovedCurtainCount() >= curtainsToGotoStore)
+            // Nếu đã thả đủ số lượng Item, bất kỳ cú click nào cũng đi đến Store
+            if (ItemManager.Instance != null && ItemManager.Instance.totalItemsDropped >= itemsToGotoStore)
             {
                 if (GameManager.Instance != null)
                 {
@@ -139,6 +140,8 @@ public class InputManager : MonoBehaviour
     }
 
     [Header("Drag Bounds Settings")]
+    [Tooltip("Bật/Tắt tính năng giới hạn di chuyển")]
+    public bool useDragBounds = true;
     [Tooltip("Khung giới hạn kéo thả (Kéo thả 1 BoxCollider vào đây, hoặc để trống nếu không cần giới hạn)")]
     public BoxCollider dragBounds;
 
@@ -150,7 +153,7 @@ public class InputManager : MonoBehaviour
             Vector3 targetPos = mouseWorldPos + offset;
 
             // Nếu có cài đặt khung giới hạn, ép vị trí Item phải nằm trong khung đó
-            if (dragBounds != null)
+            if (useDragBounds && dragBounds != null)
             {
                 Bounds b = dragBounds.bounds;
                 targetPos.x = Mathf.Clamp(targetPos.x, b.min.x, b.max.x);
@@ -181,30 +184,54 @@ public class InputManager : MonoBehaviour
                 itemController.onClick?.Invoke();
             }
 
-            // kiểm tra va chạm với Curtain
+            // Dùng lại CurtainLayer CỘNG THÊM điều kiện khoảng cách tới dropTarget
+            bool dropSuccess = false;
+            bool hitCurtain = false;
+
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, CurtainLayer))
             {
-                // nếu va chạm với Curtain thì kích hoạt animation
+                hitCurtain = true;
                 if (itemController != null)
                 {
-                    itemController.PlayDropAnimations();
+                    if (itemController.dropTarget != null)
+                    {
+                        float distance = Vector3.Distance(draggedObject.position, itemController.dropTarget.position);
+                        if (distance <= itemController.dropDistanceThreshold)
+                        {
+                            dropSuccess = true;
+                        }
+                    }
+                    else
+                    {
+                        // Nếu lỡ không set dropTarget thì chỉ cần thả trúng rèm là tính thành công
+                        dropSuccess = true;
+                    }
                 }
-                else
-                {
-                    draggedObject.gameObject.SetActive(false);
-                }
+            }
+
+            if (dropSuccess)
+            {
+                itemController.PlayDropAnimations();
             }
             else
             {
-                // nếu không va chạm với Curtain thì trả về vị trí spawn
-                if (itemMovement != null)
+                if (hitCurtain && itemController == null)
                 {
-                    itemMovement.ReturnToSpawn();
+                    // Lớp an toàn (code cũ) cho object thiếu ItemController
+                    draggedObject.gameObject.SetActive(false);
                 }
-                if (itemController != null)
+                else
                 {
-                    itemController.onReturn?.Invoke();
+                    // Nếu không trúng rèm HOẶC thả quá xa đích thì bắt bay về
+                    if (itemMovement != null)
+                    {
+                        itemMovement.ReturnToSpawn();
+                    }
+                    if (itemController != null)
+                    {
+                        itemController.onReturn?.Invoke();
+                    }
                 }
             }
 

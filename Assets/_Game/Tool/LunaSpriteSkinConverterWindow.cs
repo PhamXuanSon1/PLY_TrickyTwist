@@ -16,6 +16,10 @@ namespace PLYAssetsTool.Editor
     internal sealed class LunaSpriteSkinConverterWindow : EditorWindow
     {
         private const string DefaultOutputFolder = "Assets/__SceneAssets/LunaGenerated";
+        private const int LayerRepairNameMaxLength = 32;
+        private const float LayerRepairNameWidth = 190f;
+        private const float LayerRepairLayerWidth = 110f;
+        private const float LayerRepairValueWidth = 54f;
 
         [SerializeField] private GameObject targetRoot;
         [SerializeField] private string outputFolder = DefaultOutputFolder;
@@ -23,10 +27,18 @@ namespace PLYAssetsTool.Editor
         [SerializeField] private int ikBakeFrameRate = 30;
         [SerializeField] private bool removeIkTargets = true;
         [SerializeField] private bool saveSceneAfterConversion = true;
+        [SerializeField] private GameObject layerRepairTarget;
 
         private Vector2 scrollPosition;
+        private readonly List<LayerRepairEntry> layerRepairEntries =
+            new List<LayerRepairEntry>();
+        private GameObject activeLayerRepairTarget;
+        private bool hasUnsavedLayerChanges;
         private string status = "Ready.";
         private MessageType statusType = MessageType.None;
+        private string layerRepairStatus =
+            "Assign a converted object to edit its layer order and Z.";
+        private MessageType layerRepairStatusType = MessageType.None;
 
         [MenuItem("Tools/PLY Assets/Luna Sprite Skin Converter")]
         private static void Open()
@@ -42,6 +54,16 @@ namespace PLYAssetsTool.Editor
             {
                 targetRoot = Selection.activeGameObject;
             }
+
+            if (layerRepairTarget != null)
+            {
+                SetLayerRepairTarget(layerRepairTarget);
+            }
+        }
+
+        private void OnDisable()
+        {
+            RestoreLayerRepairSnapshot();
         }
 
         private void OnGUI()
@@ -104,7 +126,356 @@ namespace PLYAssetsTool.Editor
                 }
             }
 
+            DrawLayerRepair();
             EditorGUILayout.EndScrollView();
+        }
+
+        private void DrawLayerRepair()
+        {
+            EditorGUILayout.Space(12f);
+            EditorGUILayout.LabelField("Repair Layer Index", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(
+                "Assign a converted Scene object or prefab asset. Edit Sorting Layer and " +
+                "Order in Layer or local Z to preview changes immediately. Save keeps the " +
+                "values; Back restores the values captured when the object was assigned.",
+                MessageType.Info);
+
+            EditorGUI.BeginChangeCheck();
+            GameObject newTarget = (GameObject)EditorGUILayout.ObjectField(
+                "Converted Object",
+                layerRepairTarget,
+                typeof(GameObject),
+                true);
+            if (EditorGUI.EndChangeCheck())
+            {
+                RestoreLayerRepairSnapshot();
+                layerRepairTarget = newTarget;
+                SetLayerRepairTarget(newTarget);
+            }
+
+            if (activeLayerRepairTarget == null)
+            {
+                EditorGUILayout.HelpBox(layerRepairStatus, layerRepairStatusType);
+                return;
+            }
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField(
+                "Skinned Mesh Renderers (" + layerRepairEntries.Count + ")",
+                EditorStyles.boldLabel);
+
+            DrawLayerRepairHeader();
+            for (int i = 0; i < layerRepairEntries.Count; i++)
+            {
+                DrawLayerRepairEntry(i, layerRepairEntries[i]);
+            }
+
+            EditorGUILayout.Space();
+            EditorGUILayout.HelpBox(layerRepairStatus, layerRepairStatusType);
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                using (new EditorGUI.DisabledScope(!hasUnsavedLayerChanges))
+                {
+                    if (GUILayout.Button("Back", GUILayout.Height(30f)))
+                    {
+                        RestoreLayerRepairSnapshot();
+                        SetLayerRepairTarget(layerRepairTarget);
+                    }
+
+                    if (GUILayout.Button("Save Layer & Z", GUILayout.Height(30f)))
+                    {
+                        SaveLayerRepair();
+                    }
+                }
+            }
+        }
+
+        private static void DrawLayerRepairHeader()
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Space(28f);
+                EditorGUILayout.LabelField(
+                    "Name",
+                    EditorStyles.miniBoldLabel,
+                    GUILayout.Width(LayerRepairNameWidth));
+                EditorGUILayout.LabelField(
+                    "Layer",
+                    EditorStyles.miniBoldLabel,
+                    GUILayout.Width(LayerRepairLayerWidth));
+                EditorGUILayout.LabelField(
+                    "Order",
+                    EditorStyles.miniBoldLabel,
+                    GUILayout.Width(LayerRepairValueWidth));
+                EditorGUILayout.LabelField(
+                    "Z",
+                    EditorStyles.miniBoldLabel,
+                    GUILayout.Width(LayerRepairValueWidth));
+            }
+        }
+
+        private void DrawLayerRepairEntry(int index, LayerRepairEntry entry)
+        {
+            if (entry.Renderer == null)
+            {
+                return;
+            }
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField(
+                    index.ToString(),
+                    GUILayout.Width(24f));
+                EditorGUILayout.LabelField(
+                    new GUIContent(
+                        TruncateWithEllipsis(
+                            entry.Path,
+                            LayerRepairNameMaxLength),
+                        entry.Path),
+                    GUILayout.Width(LayerRepairNameWidth));
+
+                SortingLayer[] sortingLayers = SortingLayer.layers;
+                string[] sortingLayerNames = GetSortingLayerNames(sortingLayers);
+                int currentLayerIndex = FindSortingLayerIndex(
+                    sortingLayers,
+                    entry.Renderer.sortingLayerID);
+
+                EditorGUI.BeginChangeCheck();
+                int newLayerIndex = EditorGUILayout.Popup(
+                    currentLayerIndex,
+                    sortingLayerNames,
+                    GUILayout.Width(LayerRepairLayerWidth));
+                int newOrder = EditorGUILayout.IntField(
+                    entry.Renderer.sortingOrder,
+                    GUILayout.Width(LayerRepairValueWidth));
+                float newLocalZ = EditorGUILayout.FloatField(
+                    entry.Renderer.transform.localPosition.z,
+                    GUILayout.Width(LayerRepairValueWidth));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    int newLayerId = sortingLayers.Length > 0
+                        ? sortingLayers[Mathf.Clamp(
+                            newLayerIndex,
+                            0,
+                            sortingLayers.Length - 1)].id
+                        : entry.Renderer.sortingLayerID;
+                    SetRendererLayerValues(
+                        entry.Renderer,
+                        newLayerId,
+                        newOrder,
+                        newLocalZ);
+                }
+            }
+        }
+
+        private void SetLayerRepairTarget(GameObject newTarget)
+        {
+            layerRepairEntries.Clear();
+            activeLayerRepairTarget = null;
+            hasUnsavedLayerChanges = false;
+
+            if (newTarget == null)
+            {
+                layerRepairStatus =
+                    "Assign a converted object to edit its layer order and Z.";
+                layerRepairStatusType = MessageType.None;
+                return;
+            }
+
+            SkinnedMeshRenderer[] renderers =
+                newTarget.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+            if (renderers.Length == 0)
+            {
+                layerRepairStatus =
+                    "No SkinnedMeshRenderer components were found below this object.";
+                layerRepairStatusType = MessageType.Warning;
+                return;
+            }
+
+            activeLayerRepairTarget = newTarget;
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                SkinnedMeshRenderer renderer = renderers[i];
+                layerRepairEntries.Add(new LayerRepairEntry(
+                    renderer,
+                    BuildRelativeHierarchyPath(renderer.transform, newTarget.transform),
+                    renderer.sortingLayerID,
+                    renderer.sortingOrder,
+                    renderer.transform.localPosition.z));
+            }
+
+            layerRepairStatus =
+                "Loaded " + renderers.Length +
+                " renderer(s). Layer order and Z changes preview immediately.";
+            layerRepairStatusType = MessageType.Info;
+        }
+
+        private void SetRendererLayerValues(
+            SkinnedMeshRenderer renderer,
+            int sortingLayerId,
+            int sortingOrder,
+            float localZ)
+        {
+            if (renderer.sortingLayerID == sortingLayerId &&
+                renderer.sortingOrder == sortingOrder &&
+                Mathf.Approximately(renderer.transform.localPosition.z, localZ))
+            {
+                return;
+            }
+
+            renderer.sortingLayerID = sortingLayerId;
+            renderer.sortingOrder = sortingOrder;
+            Transform rendererTransform = renderer.transform;
+            Vector3 localPosition = rendererTransform.localPosition;
+            localPosition.z = localZ;
+            rendererTransform.localPosition = localPosition;
+            MarkLayerRendererChanged(renderer);
+            MarkLayerTransformChanged(rendererTransform);
+            hasUnsavedLayerChanges = true;
+            layerRepairStatus = "Preview has unsaved layer or Z changes.";
+            layerRepairStatusType = MessageType.Warning;
+            SceneView.RepaintAll();
+        }
+
+        private void SaveLayerRepair()
+        {
+            if (activeLayerRepairTarget == null || !hasUnsavedLayerChanges)
+            {
+                return;
+            }
+
+            string assetPath = AssetDatabase.GetAssetPath(activeLayerRepairTarget);
+            bool isPrefabAsset =
+                !string.IsNullOrEmpty(assetPath) &&
+                assetPath.EndsWith(".prefab", StringComparison.OrdinalIgnoreCase);
+
+            if (isPrefabAsset)
+            {
+                PrefabUtility.SavePrefabAsset(activeLayerRepairTarget);
+                AssetDatabase.SaveAssets();
+            }
+            else if (activeLayerRepairTarget.scene.IsValid())
+            {
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                    activeLayerRepairTarget.scene);
+                UnityEditor.SceneManagement.EditorSceneManager.SaveScene(
+                    activeLayerRepairTarget.scene);
+            }
+
+            CaptureCurrentLayerRepairValues();
+            hasUnsavedLayerChanges = false;
+            layerRepairStatus = isPrefabAsset
+                ? "Saved layer order and Z to prefab."
+                : "Saved layer order and Z to scene.";
+            layerRepairStatusType = MessageType.Info;
+        }
+
+        private void RestoreLayerRepairSnapshot()
+        {
+            if (!hasUnsavedLayerChanges)
+            {
+                return;
+            }
+
+            for (int i = 0; i < layerRepairEntries.Count; i++)
+            {
+                LayerRepairEntry entry = layerRepairEntries[i];
+                if (entry.Renderer == null)
+                {
+                    continue;
+                }
+
+                entry.Renderer.sortingLayerID =
+                    entry.OriginalSortingLayerId;
+                entry.Renderer.sortingOrder =
+                    entry.OriginalSortingOrder;
+                Transform rendererTransform = entry.Renderer.transform;
+                Vector3 localPosition = rendererTransform.localPosition;
+                localPosition.z = entry.OriginalLocalZ;
+                rendererTransform.localPosition = localPosition;
+                MarkLayerRendererChanged(entry.Renderer);
+                MarkLayerTransformChanged(rendererTransform);
+            }
+
+            hasUnsavedLayerChanges = false;
+            layerRepairStatus = "Restored the original layer order and Z.";
+            layerRepairStatusType = MessageType.Info;
+            SceneView.RepaintAll();
+        }
+
+        private void CaptureCurrentLayerRepairValues()
+        {
+            for (int i = 0; i < layerRepairEntries.Count; i++)
+            {
+                LayerRepairEntry entry = layerRepairEntries[i];
+                if (entry.Renderer != null)
+                {
+                    entry.OriginalSortingLayerId =
+                        entry.Renderer.sortingLayerID;
+                    entry.OriginalSortingOrder = entry.Renderer.sortingOrder;
+                    entry.OriginalLocalZ =
+                        entry.Renderer.transform.localPosition.z;
+                }
+            }
+        }
+
+        private static string[] GetSortingLayerNames(
+            SortingLayer[] sortingLayers)
+        {
+            string[] names = new string[sortingLayers.Length];
+            for (int i = 0; i < sortingLayers.Length; i++)
+            {
+                names[i] = sortingLayers[i].name;
+            }
+
+            return names;
+        }
+
+        private static int FindSortingLayerIndex(
+            SortingLayer[] sortingLayers,
+            int sortingLayerId)
+        {
+            for (int i = 0; i < sortingLayers.Length; i++)
+            {
+                if (sortingLayers[i].id == sortingLayerId)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
+        }
+
+        private static void MarkLayerRendererChanged(
+            SkinnedMeshRenderer renderer)
+        {
+            EditorUtility.SetDirty(renderer);
+            if (PrefabUtility.IsPartOfPrefabInstance(renderer))
+            {
+                PrefabUtility.RecordPrefabInstancePropertyModifications(
+                    renderer);
+            }
+        }
+
+        private static void MarkLayerTransformChanged(Transform transform)
+        {
+            EditorUtility.SetDirty(transform);
+            if (PrefabUtility.IsPartOfPrefabInstance(transform))
+            {
+                PrefabUtility.RecordPrefabInstancePropertyModifications(
+                    transform);
+            }
+        }
+
+        private static string TruncateWithEllipsis(string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value) || value.Length <= maxLength)
+            {
+                return value;
+            }
+
+            return value.Substring(0, maxLength - 3) + "...";
         }
 
         private bool CanConvert()
@@ -347,7 +718,20 @@ namespace PLYAssetsTool.Editor
                     continue;
                 }
 
-                Mesh mesh = CreateMesh(sprite, spriteRenderer.color);
+                Mesh mesh;
+                try
+                {
+                    mesh = CreateMesh(skin, sprite, spriteRenderer.color);
+                }
+                catch (Exception exception)
+                {
+                    throw new InvalidOperationException(
+                        "[Luna Skin Converter] Failed to convert SpriteSkin " +
+                        (i + 1) + "/" + skins.Length + ". " +
+                        BuildSpriteSkinDiagnostic(skin, sprite),
+                        exception);
+                }
+
                 string safeName = MakeSafeFileName(
                     BuildHierarchyPath(skin.transform).Replace('/', '_'));
                 string meshPath = AssetDatabase.GenerateUniqueAssetPath(
@@ -385,56 +769,252 @@ namespace PLYAssetsTool.Editor
             return convertedCount;
         }
 
-        private static Mesh CreateMesh(Sprite sprite, Color color)
+        private static Mesh CreateMesh(
+            SpriteSkin skin,
+            Sprite sprite,
+            Color color)
         {
-            NativeSlice<Vector3> sourceVertices =
-                sprite.GetVertexAttribute<Vector3>(VertexAttribute.Position);
-            NativeSlice<Vector2> sourceUvs =
-                sprite.GetVertexAttribute<Vector2>(VertexAttribute.TexCoord0);
-            NativeSlice<BoneWeight> sourceWeights =
-                sprite.GetVertexAttribute<BoneWeight>(VertexAttribute.BlendWeight);
-            NativeArray<ushort> sourceIndices = sprite.GetIndices();
-            NativeArray<Matrix4x4> sourceBindPoses = sprite.GetBindPoses();
-
-            int vertexCount = sourceVertices.Length;
-            Vector3[] vertices = new Vector3[vertexCount];
-            Vector2[] uvs = new Vector2[vertexCount];
-            BoneWeight[] weights = new BoneWeight[vertexCount];
-            Color[] colors = new Color[vertexCount];
-            int[] triangles = new int[sourceIndices.Length];
-            Matrix4x4[] bindPoses = new Matrix4x4[sourceBindPoses.Length];
-
-            for (int i = 0; i < vertexCount; i++)
+            string readPhase = "Position";
+            try
             {
-                vertices[i] = sourceVertices[i];
-                uvs[i] = sourceUvs[i];
-                weights[i] = sourceWeights[i];
-                colors[i] = color;
+                NativeSlice<Vector3> sourceVertices =
+                    sprite.GetVertexAttribute<Vector3>(VertexAttribute.Position);
+                Vector3[] vertices = CopyNativeSlice(sourceVertices);
+
+                readPhase = "TexCoord0";
+                NativeSlice<Vector2> sourceUvs =
+                    sprite.GetVertexAttribute<Vector2>(VertexAttribute.TexCoord0);
+                Vector2[] uvs = CopyNativeSlice(sourceUvs);
+
+                readPhase = "BlendWeight";
+                NativeSlice<BoneWeight> sourceWeights =
+                    sprite.GetVertexAttribute<BoneWeight>(
+                        VertexAttribute.BlendWeight);
+                BoneWeight[] weights = CopyNativeSlice(sourceWeights);
+
+                readPhase = "VertexDataValidation";
+                ValidateVertexData(skin, vertices, uvs, weights);
+
+                readPhase = "Indices";
+                NativeArray<ushort> sourceIndices = sprite.GetIndices();
+                int[] triangles = CopyIndices(sourceIndices);
+
+                readPhase = "BindPoses";
+                NativeArray<Matrix4x4> sourceBindPoses = sprite.GetBindPoses();
+                Matrix4x4[] bindPoseData = CopyNativeArray(sourceBindPoses);
+
+                readPhase = "BindPoseBuild";
+                Matrix4x4[] bindPoses = BuildBindPoses(
+                    skin,
+                    sprite,
+                    bindPoseData);
+
+                Color[] colors = new Color[vertices.Length];
+                for (int i = 0; i < colors.Length; i++)
+                {
+                    colors[i] = color;
+                }
+
+                readPhase = "MeshCreation";
+                Mesh mesh = new Mesh
+                {
+                    name = sprite.name + "_LunaMesh",
+                    vertices = vertices,
+                    uv = uvs,
+                    colors = colors,
+                    boneWeights = weights,
+                    bindposes = bindPoses,
+                    triangles = triangles,
+                    bounds = ExpandBounds(sprite.bounds)
+                };
+                mesh.UploadMeshData(false);
+                return mesh;
+            }
+            catch (Exception exception)
+            {
+                throw new InvalidOperationException(
+                    "[Luna Skin Converter] Sprite mesh read failed during " +
+                    readPhase + ". " + BuildSpriteSkinDiagnostic(skin, sprite),
+                    exception);
+            }
+        }
+
+        private static T[] CopyNativeSlice<T>(NativeSlice<T> source)
+            where T : struct
+        {
+            T[] copy = new T[source.Length];
+            for (int i = 0; i < source.Length; i++)
+            {
+                copy[i] = source[i];
             }
 
-            for (int i = 0; i < sourceIndices.Length; i++)
+            return copy;
+        }
+
+        private static T[] CopyNativeArray<T>(NativeArray<T> source)
+            where T : struct
+        {
+            T[] copy = new T[source.Length];
+            for (int i = 0; i < source.Length; i++)
             {
-                triangles[i] = sourceIndices[i];
+                copy[i] = source[i];
             }
 
-            for (int i = 0; i < sourceBindPoses.Length; i++)
+            return copy;
+        }
+
+        private static int[] CopyIndices(NativeArray<ushort> source)
+        {
+            int[] copy = new int[source.Length];
+            for (int i = 0; i < source.Length; i++)
             {
-                bindPoses[i] = sourceBindPoses[i];
+                copy[i] = source[i];
             }
 
-            Mesh mesh = new Mesh
+            return copy;
+        }
+
+        private static void ValidateVertexData(
+            SpriteSkin skin,
+            Vector3[] vertices,
+            Vector2[] uvs,
+            BoneWeight[] weights)
+        {
+            if (uvs.Length == vertices.Length &&
+                weights.Length == vertices.Length)
             {
-                name = sprite.name + "_LunaMesh",
-                vertices = vertices,
-                uv = uvs,
-                colors = colors,
-                boneWeights = weights,
-                bindposes = bindPoses,
-                triangles = triangles,
-                bounds = ExpandBounds(sprite.bounds)
-            };
-            mesh.UploadMeshData(false);
-            return mesh;
+                return;
+            }
+
+            throw new InvalidOperationException(
+                "Sprite vertex attribute counts do not match on " +
+                BuildHierarchyPath(skin.transform) +
+                ". Positions: " + vertices.Length +
+                ", UVs: " + uvs.Length +
+                ", bone weights: " + weights.Length + ".");
+        }
+
+        private static Matrix4x4[] BuildBindPoses(
+            SpriteSkin skin,
+            Sprite sprite,
+            Matrix4x4[] sourceBindPoses)
+        {
+            int boneCount = skin.boneTransforms.Length;
+            if (sourceBindPoses.Length == boneCount)
+            {
+                Matrix4x4[] bindPoses = new Matrix4x4[boneCount];
+                for (int i = 0; i < boneCount; i++)
+                {
+                    bindPoses[i] = sourceBindPoses[i];
+                }
+
+                return bindPoses;
+            }
+
+            SpriteBone[] spriteBones = sprite.GetBones();
+            if (spriteBones.Length != boneCount)
+            {
+                throw new InvalidOperationException(
+                    "Cannot build bindposes for " +
+                    BuildHierarchyPath(skin.transform) +
+                    ". Sprite bones: " + spriteBones.Length +
+                    ", SpriteSkin bones: " + boneCount +
+                    ", source bindposes: " + sourceBindPoses.Length + ".");
+            }
+
+            for (int i = 0; i < boneCount; i++)
+            {
+                Transform boneTransform = skin.boneTransforms[i];
+                if (boneTransform == null)
+                {
+                    throw new InvalidOperationException(
+                        "SpriteSkin contains a missing bone at index " + i +
+                        " on " + BuildHierarchyPath(skin.transform) + ".");
+                }
+
+                if (!string.Equals(
+                        boneTransform.name,
+                        spriteBones[i].name,
+                        StringComparison.Ordinal))
+                {
+                    throw new InvalidOperationException(
+                        "Sprite bone order mismatch at index " + i +
+                        " on " + BuildHierarchyPath(skin.transform) +
+                        ". SpriteSkin has " + boneTransform.name +
+                        ", Sprite has " + spriteBones[i].name + ".");
+                }
+            }
+
+            Matrix4x4[] boneToSpriteMatrices = new Matrix4x4[boneCount];
+            Matrix4x4[] rebuiltBindPoses = new Matrix4x4[boneCount];
+            byte[] calculationStates = new byte[boneCount];
+
+            for (int i = 0; i < boneCount; i++)
+            {
+                Matrix4x4 boneToSprite = CalculateBoneToSpriteMatrix(
+                    i,
+                    spriteBones,
+                    boneToSpriteMatrices,
+                    calculationStates);
+                rebuiltBindPoses[i] = boneToSprite.inverse;
+            }
+
+            Debug.LogWarning(
+                "[Luna Skin Converter] Rebuilt " + boneCount +
+                " bindposes from SpriteBone rest data on " +
+                BuildHierarchyPath(skin.transform) +
+                " because the Sprite provided " +
+                sourceBindPoses.Length + " bindposes.");
+
+            return rebuiltBindPoses;
+        }
+
+        private static Matrix4x4 CalculateBoneToSpriteMatrix(
+            int boneIndex,
+            SpriteBone[] spriteBones,
+            Matrix4x4[] boneToSpriteMatrices,
+            byte[] calculationStates)
+        {
+            if (calculationStates[boneIndex] == 2)
+            {
+                return boneToSpriteMatrices[boneIndex];
+            }
+
+            if (calculationStates[boneIndex] == 1)
+            {
+                throw new InvalidOperationException(
+                    "Sprite bone hierarchy contains a cycle at bone " +
+                    spriteBones[boneIndex].name + ".");
+            }
+
+            calculationStates[boneIndex] = 1;
+            SpriteBone spriteBone = spriteBones[boneIndex];
+            Matrix4x4 localMatrix = Matrix4x4.TRS(
+                spriteBone.position,
+                spriteBone.rotation,
+                Vector3.one);
+
+            int parentIndex = spriteBone.parentId;
+            Matrix4x4 boneToSprite = localMatrix;
+            if (parentIndex >= 0)
+            {
+                if (parentIndex >= spriteBones.Length)
+                {
+                    throw new InvalidOperationException(
+                        "Sprite bone " + spriteBone.name +
+                        " has invalid parent index " + parentIndex + ".");
+                }
+
+                boneToSprite = CalculateBoneToSpriteMatrix(
+                    parentIndex,
+                    spriteBones,
+                    boneToSpriteMatrices,
+                    calculationStates) * localMatrix;
+            }
+
+            boneToSpriteMatrices[boneIndex] = boneToSprite;
+            calculationStates[boneIndex] = 2;
+            return boneToSprite;
         }
 
         private static Material GetOrCreateMaterial(
@@ -790,6 +1370,64 @@ namespace PLYAssetsTool.Editor
             return string.Join("/", names.ToArray());
         }
 
+        private static string BuildSpriteSkinDiagnostic(
+            SpriteSkin skin,
+            Sprite sprite)
+        {
+            string hierarchyPath = skin != null
+                ? BuildHierarchyPath(skin.transform)
+                : "<missing SpriteSkin>";
+            string spriteName = sprite != null ? sprite.name : "<missing Sprite>";
+            string spriteAssetPath = sprite != null
+                ? AssetDatabase.GetAssetPath(sprite)
+                : "<none>";
+            string textureName =
+                sprite != null && sprite.texture != null
+                    ? sprite.texture.name
+                    : "<missing texture>";
+            int skinBoneCount =
+                skin != null && skin.boneTransforms != null
+                    ? skin.boneTransforms.Length
+                    : 0;
+            string rootBoneName =
+                skin != null && skin.rootBone != null
+                    ? skin.rootBone.name
+                    : "<missing root bone>";
+
+            return "Hierarchy: " + hierarchyPath +
+                   ", Sprite: " + spriteName +
+                   ", Sprite instance ID: " +
+                   (sprite != null ? sprite.GetInstanceID() : 0) +
+                   ", Asset: " +
+                   (string.IsNullOrEmpty(spriteAssetPath)
+                       ? "<scene/runtime sprite>"
+                       : spriteAssetPath) +
+                   ", Texture: " + textureName +
+                   ", SpriteSkin bones: " + skinBoneCount +
+                   ", Root bone: " + rootBoneName + ".";
+        }
+
+        private static string BuildRelativeHierarchyPath(
+            Transform transform,
+            Transform root)
+        {
+            if (transform == root)
+            {
+                return root.name;
+            }
+
+            List<string> names = new List<string>();
+            Transform current = transform;
+            while (current != null && current != root)
+            {
+                names.Add(current.name);
+                current = current.parent;
+            }
+
+            names.Reverse();
+            return string.Join("/", names.ToArray());
+        }
+
         private static string MakeSafeFileName(string value)
         {
             char[] invalidCharacters = Path.GetInvalidFileNameChars();
@@ -814,6 +1452,29 @@ namespace PLYAssetsTool.Editor
             IkManager,
             [InspectorName("Animator Bone Curves (Keep)")]
             AnimatorBoneCurves
+        }
+
+        private sealed class LayerRepairEntry
+        {
+            internal readonly SkinnedMeshRenderer Renderer;
+            internal readonly string Path;
+            internal int OriginalSortingLayerId;
+            internal int OriginalSortingOrder;
+            internal float OriginalLocalZ;
+
+            internal LayerRepairEntry(
+                SkinnedMeshRenderer renderer,
+                string path,
+                int originalSortingLayerId,
+                int originalSortingOrder,
+                float originalLocalZ)
+            {
+                Renderer = renderer;
+                Path = path;
+                OriginalSortingLayerId = originalSortingLayerId;
+                OriginalSortingOrder = originalSortingOrder;
+                OriginalLocalZ = originalLocalZ;
+            }
         }
 
         private readonly struct MaterialKey : IEquatable<MaterialKey>

@@ -3,6 +3,7 @@ using Luna.Unity;
 
 public class GameManager : MonoBehaviour
 {
+    public FxType fxStartVoice = FxType.StartVoice;
     public static GameManager Instance;
 
     private void Awake()
@@ -12,6 +13,10 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
     }
+    void Start()
+    {
+        Ply_SoundManager.Ins.PlayFx(fxStartVoice);
+    }
 
     public void GotoStore()
     {
@@ -20,4 +25,16 @@ public class GameManager : MonoBehaviour
         Playable.InstallFullGame();
     }
 
+    [Header("Game State")]
+    public UnityEngine.Events.UnityEvent onLoseGame;
+
+    // Hàm này dùng để gọi từ Unity Event (ví dụ OnReturn của ItemController)
+    public void LoseGame()
+    {
+        // Kích hoạt các hàm (Bật UI Thua, Phát âm thanh...) mà bạn kéo thả trên Inspector
+        onLoseGame?.Invoke();
+        
+        // Mặc định kết thúc Game và bay ra Store
+        GotoStore();
+    }
 }
