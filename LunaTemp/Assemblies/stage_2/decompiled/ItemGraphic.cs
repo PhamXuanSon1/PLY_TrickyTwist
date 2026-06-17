@@ -21,17 +21,19 @@ public class ItemGraphic : MonoBehaviour
 
 	public void SetSortingLayerToTop()
 	{
+		int offset = ((InputManager.Instance != null) ? InputManager.Instance.dragSortingOffset : sortingOrderOffset);
 		for (int i = 0; i < spriteRenderers.Count; i++)
 		{
-			spriteRenderers[i].sortingOrder += sortingOrderOffset;
+			spriteRenderers[i].sortingOrder += offset;
 		}
 	}
 
 	public void ResetSortingLayer()
 	{
+		int offset = ((InputManager.Instance != null) ? InputManager.Instance.dragSortingOffset : sortingOrderOffset);
 		for (int i = 0; i < spriteRenderers.Count; i++)
 		{
-			spriteRenderers[i].sortingOrder -= sortingOrderOffset;
+			spriteRenderers[i].sortingOrder -= offset;
 		}
 	}
 }

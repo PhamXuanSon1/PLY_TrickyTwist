@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class PlaySound : MonoBehaviour
 {
-	public FxType fxType;
+	public FxType sound1;
 
 	public FxType sound2;
 
 	public FxType sound3;
 
-	public void Play()
+	public void Sound1()
 	{
 		if (Ply_Singleton<Ply_SoundManager>.Ins != null)
 		{
-			Ply_Singleton<Ply_SoundManager>.Ins.PlayFx(fxType);
+			Ply_Singleton<Ply_SoundManager>.Ins.PlayFx(sound1);
 		}
 	}
 
-	public void Play2()
+	public void Sound2()
 	{
 		if (Ply_Singleton<Ply_SoundManager>.Ins != null)
 		{
@@ -24,7 +24,7 @@ public class PlaySound : MonoBehaviour
 		}
 	}
 
-	public void Women()
+	public void Sound3()
 	{
 		if (Ply_Singleton<Ply_SoundManager>.Ins != null)
 		{

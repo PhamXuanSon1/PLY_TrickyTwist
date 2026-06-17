@@ -12,47 +12,47 @@ public class ProgressBarUI : MonoBehaviour
 	[Tooltip("Kéo TextMeshPro hiển thị số (ví dụ 3/8) vào đây")]
 	public TextMeshProUGUI progressText;
 
-	private int totalCurtains;
+	private int totalItems = 0;
 
 	private void Start()
 	{
-		if (CurtainManager.Instance != null)
+		if (ItemManager.Instance != null)
 		{
-			totalCurtains = CurtainManager.Instance.curtains.Count;
-			CurtainManager.Instance.onCurtainRemoved.AddListener(UpdateUI);
-			int initialCount = CurtainManager.Instance.GetRemovedCurtainCount();
-			if (fillImage != null)
+			totalItems = ItemManager.Instance.items.Count;
+			ItemManager.Instance.onItemDropped.AddListener(UpdateUI);
+			int initialCount = ItemManager.Instance.totalItemsDropped;
+			if (fillImage != null && totalItems > 0)
 			{
-				fillImage.fillAmount = (float)initialCount / (float)totalCurtains;
+				fillImage.fillAmount = (float)initialCount / (float)totalItems;
 			}
 			if (progressText != null)
 			{
-				progressText.text = $"{initialCount}/{totalCurtains}";
+				progressText.text = $"{initialCount}/{totalItems}";
 			}
 		}
 	}
 
 	private void OnDestroy()
 	{
-		if (CurtainManager.Instance != null)
+		if (ItemManager.Instance != null)
 		{
-			CurtainManager.Instance.onCurtainRemoved.RemoveListener(UpdateUI);
+			ItemManager.Instance.onItemDropped.RemoveListener(UpdateUI);
 		}
 	}
 
 	public void UpdateUI()
 	{
-		if (CurtainManager.Instance != null && totalCurtains > 0)
+		if (ItemManager.Instance != null && totalItems > 0)
 		{
-			int removedCount = CurtainManager.Instance.GetRemovedCurtainCount();
+			int currentCount = ItemManager.Instance.totalItemsDropped;
 			if (fillImage != null)
 			{
-				float targetFill = (float)removedCount / (float)totalCurtains;
+				float targetFill = (float)currentCount / (float)totalItems;
 				fillImage.DOFillAmount(targetFill, 0.5f).SetEase(Ease.OutCubic);
 			}
 			if (progressText != null)
 			{
-				progressText.text = $"{removedCount}/{totalCurtains}";
+				progressText.text = $"{currentCount}/{totalItems}";
 			}
 		}
 	}

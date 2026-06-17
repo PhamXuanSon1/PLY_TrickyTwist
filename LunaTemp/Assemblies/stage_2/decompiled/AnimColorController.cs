@@ -9,17 +9,5 @@ public class AnimColorController : MonoBehaviour
 
 	public void ApplyTopColor()
 	{
-		if (!(CurtainManager.Instance != null))
-		{
-			return;
-		}
-		Color targetColor = CurtainManager.Instance.GetTopCurtainColor();
-		foreach (SpriteRenderer sr in partsToColor)
-		{
-			if (sr != null)
-			{
-				sr.color = targetColor;
-			}
-		}
 	}
 }

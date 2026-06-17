@@ -13,9 +13,18 @@ public class ItemMovement : MonoBehaviour
 	public void ReturnToSpawn()
 	{
 		_ = SpawnPos;
-		if (true)
+		if (1 == 0)
 		{
-			base.transform.DOMove(SpawnPos, 0.25f).SetEase(Ease.OutQuad);
+			return;
 		}
+		base.transform.DOKill();
+		base.transform.DOMove(SpawnPos, 0.25f).SetEase(Ease.OutQuad).OnComplete(delegate
+		{
+			ItemGraphic component = GetComponent<ItemGraphic>();
+			if (component != null)
+			{
+				component.ResetSortingLayer();
+			}
+		});
 	}
 }

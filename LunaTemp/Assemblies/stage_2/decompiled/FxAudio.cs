@@ -7,37 +7,35 @@ public class FxAudio
 
 	public SoundData ClickBox;
 
-	public SoundData Fan;
+	public SoundData StartVoice;
 
-	public SoundData Cream;
+	public SoundData voice_lv52_bottle;
 
-	public SoundData Switch;
+	public SoundData voice_lv52_fruit;
 
-	public SoundData Lighter;
+	public SoundData voice_lv52_icecup;
 
-	public SoundData Sausage;
+	public SoundData voice_lv52_icream;
 
-	public SoundData Scissor;
+	public SoundData voice_lv52_ladle;
 
-	public SoundData Watertap;
+	public SoundData voice_lv52_milk;
 
-	public SoundData Dog;
+	public SoundData voice_lv52_shirt;
 
-	public SoundData Curtain;
+	public SoundData voice_lv52_tofu;
 
-	public SoundData Flame;
+	public SoundData voice_lv52_water;
 
-	public SoundData Women1;
+	public SoundData Correct;
 
-	public SoundData Women2;
+	public SoundData FridgeOpen;
 
-	public SoundData Women3;
+	public SoundData water;
 
-	public SoundData Women4;
+	public SoundData mouse;
 
-	public SoundData Women5;
+	public SoundData wrong;
 
-	public SoundData Women6;
-
-	public SoundData Women7;
+	public SoundData haa;
 }

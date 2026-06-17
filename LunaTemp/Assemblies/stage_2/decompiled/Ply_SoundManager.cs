@@ -82,40 +82,38 @@ public class Ply_SoundManager : Ply_Singleton<Ply_SoundManager>
 			return fxAudio.None;
 		case FxType.Click:
 			return fxAudio.ClickBox;
-		case FxType.Fan:
-			return fxAudio.Fan;
-		case FxType.Cream:
-			return fxAudio.Cream;
-		case FxType.Switch:
-			return fxAudio.Switch;
-		case FxType.Lighter:
-			return fxAudio.Lighter;
-		case FxType.Sausage:
-			return fxAudio.Sausage;
-		case FxType.scissor:
-			return fxAudio.Scissor;
-		case FxType.watertap:
-			return fxAudio.Watertap;
-		case FxType.Dog:
-			return fxAudio.Dog;
-		case FxType.Curtain:
-			return fxAudio.Curtain;
-		case FxType.Flame:
-			return fxAudio.Flame;
-		case FxType.Women1:
-			return fxAudio.Women1;
-		case FxType.Women2:
-			return fxAudio.Women2;
-		case FxType.Women3:
-			return fxAudio.Women3;
-		case FxType.Women4:
-			return fxAudio.Women4;
-		case FxType.Women5:
-			return fxAudio.Women5;
-		case FxType.Women6:
-			return fxAudio.Women6;
-		case FxType.Women7:
-			return fxAudio.Women7;
+		case FxType.StartVoice:
+			return fxAudio.StartVoice;
+		case FxType.voice_lv52_bottle:
+			return fxAudio.voice_lv52_bottle;
+		case FxType.voice_lv52_fruit:
+			return fxAudio.voice_lv52_fruit;
+		case FxType.voice_lv52_icecup:
+			return fxAudio.voice_lv52_icecup;
+		case FxType.voice_lv52_icream:
+			return fxAudio.voice_lv52_icream;
+		case FxType.voice_lv52_ladle:
+			return fxAudio.voice_lv52_ladle;
+		case FxType.voice_lv52_milk:
+			return fxAudio.voice_lv52_milk;
+		case FxType.voice_lv52_shirt:
+			return fxAudio.voice_lv52_shirt;
+		case FxType.voice_lv52_tofu:
+			return fxAudio.voice_lv52_tofu;
+		case FxType.voice_lv52_water:
+			return fxAudio.voice_lv52_water;
+		case FxType.Correct:
+			return fxAudio.Correct;
+		case FxType.FridgeOpen:
+			return fxAudio.FridgeOpen;
+		case FxType.water:
+			return fxAudio.water;
+		case FxType.mouse:
+			return fxAudio.mouse;
+		case FxType.wrong:
+			return fxAudio.wrong;
+		case FxType.haa:
+			return fxAudio.haa;
 		default:
 			return null;
 		}

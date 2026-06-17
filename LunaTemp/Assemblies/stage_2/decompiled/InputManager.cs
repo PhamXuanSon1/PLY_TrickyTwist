@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class InputManager : MonoBehaviour
 {
@@ -28,10 +29,18 @@ public class InputManager : MonoBehaviour
 	private const float clickDragThreshold = 10f;
 
 	[Header("Store Settings")]
-	[Tooltip("Số lượng rèm bị gỡ để kích hoạt tính năng Click đi Store")]
-	public int curtainsToGotoStore = 7;
+	[Tooltip("Số lượng Item thả trúng đích để kích hoạt tính năng Click bất kỳ đâu cũng đi Store")]
+	[FormerlySerializedAs("curtainsToGotoStore")]
+	public int itemsToGotoStore = 7;
+
+	[Header("Drag Settings")]
+	[Tooltip("Số lượng layer cộng thêm khi nhấc Item lên (để nó đè lên UI/đồ vật khác)")]
+	public int dragSortingOffset = 100;
 
 	[Header("Drag Bounds Settings")]
+	[Tooltip("Bật/Tắt tính năng giới hạn di chuyển")]
+	public bool useDragBounds = true;
+
 	[Tooltip("Khung giới hạn kéo thả (Kéo thả 1 BoxCollider vào đây, hoặc để trống nếu không cần giới hạn)")]
 	public BoxCollider dragBounds;
 
@@ -68,6 +77,11 @@ public class InputManager : MonoBehaviour
 		}
 		if (Input.GetMouseButtonDown(0))
 		{
+			if (GameManager.Instance != null && GameManager.Instance.isGameEnded)
+			{
+				GameManager.Instance.GotoStore();
+				return;
+			}
 			Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out var _, maxDistance, installLayer))
 			{
@@ -77,7 +91,7 @@ public class InputManager : MonoBehaviour
 				}
 				return;
 			}
-			if (CurtainManager.Instance != null && CurtainManager.Instance.GetRemovedCurtainCount() >= curtainsToGotoStore)
+			if (ItemManager.Instance != null && ItemManager.Instance.totalItemsDropped >= itemsToGotoStore)
 			{
 				if (GameManager.Instance != null)
 				{
@@ -137,7 +151,7 @@ public class InputManager : MonoBehaviour
 		{
 			Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, dragDepth));
 			Vector3 targetPos = mouseWorldPos + offset;
-			if (dragBounds != null)
+			if (useDragBounds && dragBounds != null)
 			{
 				Bounds b = dragBounds.bounds;
 				targetPos.x = Mathf.Clamp(targetPos.x, b.min.x, b.max.x);
@@ -155,27 +169,45 @@ public class InputManager : MonoBehaviour
 		}
 		bool isClick = Vector3.Distance(Input.mousePosition, mouseDownPos) <= 10f;
 		ItemGraphic itemGraphic = draggedObject.GetComponent<ItemGraphic>();
-		if (itemGraphic != null)
-		{
-			itemGraphic.ResetSortingLayer();
-		}
 		ItemMovement itemMovement = draggedObject.GetComponent<ItemMovement>();
 		ItemController itemController = draggedObject.GetComponent<ItemController>();
 		if (isClick && itemController != null)
 		{
 			itemController.onClick?.Invoke();
 		}
+		bool dropSuccess = false;
+		bool hitCurtain = false;
 		Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 		if (Physics.Raycast(ray, out var _, maxDistance, CurtainLayer))
 		{
+			hitCurtain = true;
 			if (itemController != null)
 			{
-				itemController.PlayDropAnimations();
+				if (itemController.dropTarget != null)
+				{
+					float distance = Vector3.Distance(draggedObject.position, itemController.dropTarget.position);
+					if (distance <= itemController.dropDistanceThreshold)
+					{
+						dropSuccess = true;
+					}
+				}
+				else
+				{
+					dropSuccess = true;
+				}
 			}
-			else
+		}
+		if (dropSuccess)
+		{
+			if (itemGraphic != null)
 			{
-				draggedObject.gameObject.SetActive(false);
+				itemGraphic.ResetSortingLayer();
 			}
+			itemController.PlayDropAnimations();
+		}
+		else if (hitCurtain && itemController == null)
+		{
+			draggedObject.gameObject.SetActive(false);
 		}
 		else
 		{

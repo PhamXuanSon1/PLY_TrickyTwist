@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ItemManager : MonoBehaviour
 {
+	public static ItemManager Instance;
+
 	public List<ItemController> items = new List<ItemController>();
 
-	[Header("Girl Evolution System")]
-	[Tooltip("Danh sách các cô gái và giới hạn số rèm của từng người")]
-	public List<GirlEvolutionData> girlEvolutions = new List<GirlEvolutionData>();
+	[Header("Progress")]
+	[Tooltip("Tổng số Item đã được thả trúng đích thành công")]
+	public int totalItemsDropped = 0;
 
-	private int currentGirlIndex = -99;
-
-	private float blockEvolutionUntilTime = 0f;
-
-	public static ItemManager Instance;
+	[Header("Events")]
+	public UnityEvent onItemDropped;
 
 	private void Awake()
 	{
@@ -23,51 +23,12 @@ public class ItemManager : MonoBehaviour
 		}
 	}
 
-	private void Start()
+	public void AddDroppedItem(ItemController item)
 	{
-		girlEvolutions.Sort((GirlEvolutionData a, GirlEvolutionData b) => a.unlockAtCurtainCount.CompareTo(b.unlockAtCurtainCount));
-	}
-
-	public void DelayEvolutionCheckFor(float duration)
-	{
-		float targetTime = Time.time + duration;
-		if (targetTime > blockEvolutionUntilTime)
+		if (items.Contains(item))
 		{
-			blockEvolutionUntilTime = targetTime;
-		}
-	}
-
-	private void Update()
-	{
-		if (girlEvolutions.Count == 0 || CurtainManager.Instance == null || Time.time < blockEvolutionUntilTime)
-		{
-			return;
-		}
-		int removedCount = CurtainManager.Instance.GetRemovedCurtainCount();
-		int newGirlIndex = girlEvolutions.Count - 1;
-		for (int i = 0; i < girlEvolutions.Count; i++)
-		{
-			if (removedCount < girlEvolutions[i].unlockAtCurtainCount)
-			{
-				newGirlIndex = i;
-				break;
-			}
-		}
-		if (newGirlIndex != currentGirlIndex)
-		{
-			currentGirlIndex = newGirlIndex;
-			UpdateGirlDisplay();
-		}
-	}
-
-	private void UpdateGirlDisplay()
-	{
-		for (int i = 0; i < girlEvolutions.Count; i++)
-		{
-			if (girlEvolutions[i] != null && girlEvolutions[i].girlObject != null)
-			{
-				girlEvolutions[i].girlObject.SetActive(i == currentGirlIndex);
-			}
+			totalItemsDropped++;
+			onItemDropped?.Invoke();
 		}
 	}
 }

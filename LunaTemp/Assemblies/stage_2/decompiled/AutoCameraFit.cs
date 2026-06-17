@@ -55,19 +55,23 @@ public class AutoCameraFit : MonoBehaviour
 			return;
 		}
 		Renderer[] renderers = targetArea.GetComponentsInChildren<Renderer>();
-		if (renderers.Length != 0)
+		if (renderers.Length == 0)
 		{
-			float padding = ((Screen.width > Screen.height) ? paddingLandscape : paddingPortrait);
-			if (Screen.height < smallScreenThreshold || Screen.width < smallScreenThreshold)
-			{
-				padding += extraPaddingSmallScreen;
-			}
-			Bounds bounds = renderers[0].bounds;
-			Renderer[] array = renderers;
-			foreach (Renderer r in array)
-			{
-				bounds.Encapsulate(r.bounds);
-			}
+			return;
+		}
+		float padding = ((Screen.width > Screen.height) ? paddingLandscape : paddingPortrait);
+		if (Screen.height < smallScreenThreshold || Screen.width < smallScreenThreshold)
+		{
+			padding += extraPaddingSmallScreen;
+		}
+		Bounds bounds = renderers[0].bounds;
+		Renderer[] array = renderers;
+		foreach (Renderer r in array)
+		{
+			bounds.Encapsulate(r.bounds);
+		}
+		if (!(bounds.size.y <= 0.0001f) && !(bounds.size.x <= 0.0001f) && Screen.height != 0)
+		{
 			float screenRatio = (float)Screen.width / (float)Screen.height;
 			float targetRatio = bounds.size.x / bounds.size.y;
 			if (screenRatio >= targetRatio)

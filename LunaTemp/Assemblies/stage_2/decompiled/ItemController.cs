@@ -7,7 +7,14 @@ public class ItemController : MonoBehaviour
 {
 	public ItemType itemType = ItemType.DragAndDrop;
 
+	[Tooltip("Vị trí đích mà Item cần được kéo thả vào")]
 	public Transform dropTarget;
+
+	[Tooltip("Khoảng cách tối đa (bán kính) để tính là thả trúng đích")]
+	public float dropDistanceThreshold = 1f;
+
+	[Tooltip("Bật tắt tính năng tự động ẩn hình ảnh Item khi thả trúng đích")]
+	public bool hideSpriteOnDrop = true;
 
 	[Header("Events")]
 	public UnityEvent onClick;
@@ -18,26 +25,41 @@ public class ItemController : MonoBehaviour
 
 	public UnityEvent onReturn;
 
+	[Tooltip("Sự kiện kích hoạt sau khi TẤT CẢ các Animation của Item đã chạy xong")]
+	public UnityEvent onAnimFinished;
+
 	[Header("Animation Setup")]
 	public List<AnimObjectData> animationObjects = new List<AnimObjectData>();
 
 	[Header("Audio")]
-	[Tooltip("Chọn loại âm thanh FX sẽ phát khi chơi thành công (lấy từ Ply_SoundManager)")]
-	public FxType fxSoundType;
+	[Tooltip("Danh sách âm thanh FX sẽ phát NGAY LẬP TỨC khi chơi thành công")]
+	public List<FxType> fxSoundsStartAnim = new List<FxType>();
+
+	[Tooltip("Danh sách âm thanh sẽ phát sau khi TẤT CẢ animation chạy xong")]
+	public List<FxType> fxSoundsAfterAnim = new List<FxType>();
 
 	public void PlayDropAnimations()
 	{
-		if (Ply_Singleton<Ply_SoundManager>.Ins != null)
+		if (Ply_Singleton<Ply_SoundManager>.Ins != null && fxSoundsStartAnim != null)
 		{
-			Ply_Singleton<Ply_SoundManager>.Ins.PlayFx(fxSoundType);
+			foreach (FxType sound in fxSoundsStartAnim)
+			{
+				if (sound != 0)
+				{
+					Ply_Singleton<Ply_SoundManager>.Ins.PlayFx(sound);
+				}
+			}
 		}
 		onDrop?.Invoke();
-		ItemGraphic graphic = GetComponent<ItemGraphic>();
-		if (graphic != null)
+		if (hideSpriteOnDrop)
 		{
-			for (int j = 0; j < graphic.spriteRenderers.Count; j++)
+			ItemGraphic graphic = GetComponent<ItemGraphic>();
+			if (graphic != null)
 			{
-				graphic.spriteRenderers[j].enabled = false;
+				for (int j = 0; j < graphic.spriteRenderers.Count; j++)
+				{
+					graphic.spriteRenderers[j].enabled = false;
+				}
 			}
 		}
 		Collider col = GetComponent<Collider>();
@@ -65,8 +87,22 @@ public class ItemController : MonoBehaviour
 		}
 		if (ItemManager.Instance != null)
 		{
-			ItemManager.Instance.DelayEvolutionCheckFor(maxDuration);
+			ItemManager.Instance.AddDroppedItem(this);
 		}
+		if (fxSoundsAfterAnim != null && fxSoundsAfterAnim.Count > 0)
+		{
+			StartCoroutine(PlaySoundsAfterDelay(fxSoundsAfterAnim, maxDuration));
+		}
+		StartCoroutine(InvokeAnimFinished(maxDuration));
+	}
+
+	private IEnumerator InvokeAnimFinished(float delay)
+	{
+		if (delay > 0f)
+		{
+			yield return new WaitForSeconds(delay);
+		}
+		onAnimFinished?.Invoke();
 	}
 
 	private IEnumerator ActivateObjectWithDelay(AnimObjectData data)
@@ -86,6 +122,25 @@ public class ItemController : MonoBehaviour
 			if (data.animObj != null)
 			{
 				data.animObj.SetActive(false);
+			}
+		}
+	}
+
+	private IEnumerator PlaySoundsAfterDelay(List<FxType> soundTypes, float delay)
+	{
+		if (delay > 0f)
+		{
+			yield return new WaitForSeconds(delay);
+		}
+		if (!(Ply_Singleton<Ply_SoundManager>.Ins != null))
+		{
+			yield break;
+		}
+		foreach (FxType sound in soundTypes)
+		{
+			if (sound != 0)
+			{
+				Ply_Singleton<Ply_SoundManager>.Ins.PlayFx(sound);
 			}
 		}
 	}
