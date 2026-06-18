@@ -87,8 +87,6 @@
         "assets": {
             "export": [],
             "excludes": [
-                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
-                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
                 "Assets/TextMesh Pro/Sprites/EmojiOne.png",
                 "**/Editor/",
                 "**/FacebookSDK/",
@@ -128,6 +126,10 @@
                 "Stubs/MoreMountains.NiceVibrations"
             ],
             "includes": [
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
                 "Assets/TextMesh Pro/Resources/TMP Settings.asset",
                 "Assets/_Game/Font/LilitaOne-Regular SDF.asset",
                 "Assets/_Game/Font/LilitaOne-Regular.ttf",
@@ -21156,7 +21158,7 @@
                     },
                     {
                         "name": "InsertNewLine",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SaveWordWrappingState",
@@ -21164,7 +21166,7 @@
                     },
                     {
                         "name": "RestoreWordWrappingState",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SaveGlyphVertexInfo",
@@ -29808,7 +29810,7 @@
                     },
                     {
                         "name": "Resize",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Resize$1",
@@ -30142,7 +30144,7 @@
                 "instanceMethods": [
                     {
                         "name": "getDefaultValue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -30162,7 +30164,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -34739,6 +34741,56 @@
                         "script": "",
                         "ext": "",
                         "name": "Assets/_Game/Sounds/Sounds/wrong_duck.mp3"
+                    },
+                    {
+                        "channels": 1,
+                        "startTime": "00:00.000",
+                        "endTime": "00:00.000",
+                        "lengthInSeconds": 0.0,
+                        "bitrate": 64,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sounds/Sounds/Player/voice_lv52_tofu 1.MP3"
+                    },
+                    {
+                        "channels": 1,
+                        "startTime": "00:00.000",
+                        "endTime": "00:30.000",
+                        "lengthInSeconds": 30.0,
+                        "bitrate": 64,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sounds/Sounds/Player/voice_lv52_milk 1.MP3"
+                    },
+                    {
+                        "channels": 1,
+                        "startTime": "00:00.000",
+                        "endTime": "00:00.000",
+                        "lengthInSeconds": 0.0,
+                        "bitrate": 64,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sounds/Sounds/Player/voice_lv52_ladle 1.MP3"
+                    },
+                    {
+                        "channels": 1,
+                        "startTime": "00:00.000",
+                        "endTime": "00:30.000",
+                        "lengthInSeconds": 30.0,
+                        "bitrate": 64,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sounds/Sounds/Player/voice_lv52_icecup 1.MP3"
+                    },
+                    {
+                        "channels": 1,
+                        "startTime": "00:00.000",
+                        "endTime": "00:00.000",
+                        "lengthInSeconds": 0.0,
+                        "bitrate": 64,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Sounds/Sounds/Player/voice_lv52_fruit 1.MP3"
                     }
                 ]
             },
